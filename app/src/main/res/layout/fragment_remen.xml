@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bk"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
+
+    <!--头部栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/logo_sj"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:ems="5"
+            android:lines="1"
+            android:textColor="@color/app_text_color1"
+            android:textSize="@dimen/font_size_middle" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/btn_search_shape">
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon_edit_search"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="35dp"
+                android:paddingRight="30dp"
+                android:singleLine="true"
+                android:text="@string/search_goods"
+                android:textColor="#9B9B9B"
+                android:textSize="@dimen/font_size_middle" />
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_edit_del"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/icon_padding"
+            android:visibility="gone"
+            android:src="@drawable/icon_edit_del" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_tese_meishi"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/icon_padding"
+            android:src="@drawable/title_b1" />
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:id="@+id/xrecyclerview">
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    </LinearLayout>
+</LinearLayout>

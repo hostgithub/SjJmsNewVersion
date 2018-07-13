@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="title_text_color">#ffffffff</color>
+    <color name="colorWhite">#eee</color>
+    <color name="snow">#fffafa</color><!--雪白色 -->
+    <color name="colorToolWhite">#7effffff</color>
+    <color name="WhiteSmoke">#F0F0F0</color>
+    <color name="list_bg">#D6D6D6</color>
+    <color name="app_primary_color">#80c3db</color>
+
+    <color name="white_snow">#FFFFFF</color>
+    <color name="index_blue">#2196F3</color>
+    <color name="main_color">#EB413D</color><!--主色调-->
+    <color name="error">#ff4545</color>
+    <color name="title">#EE3B3B</color>
+
+
+    <!--<color name="white">#fefefe</color>-->
+    <color name="black_dft">#3c3c3c</color>
+    <color name="translate">#00000000</color>
+    <color name="bg_main">#f0eff4</color>
+    <color name="gray_dft">#888888</color>
+    <color name="dividing_light">#f0f0f0</color>
+    <color name="dividing_dark">#c9c9c9</color>
+
+    <color name="orange_dft">#f2a732</color>
+
+
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+    <!--白色-->
+    <color name="white">#ffffff</color>
+    <!--黑色-->
+    <color name="black">#000000</color>
+    <!--遮罩黑色-->
+    <color name="mask_black">#30000000</color>
+    <!--红色-->
+    <color name="red">#FF0000</color>
+    <!--黄色-->
+    <color name="yellow">#FFFF00</color>
+    <!--橙色-->
+    <color name="orange">#FAA346</color>
+    <!--蓝色-->
+    <color name="blue">#0000FF</color>
+    <!--画布灰色-->
+    <color name="gray">#EFEFEF</color>
+    <!--背景色-->
+    <color name="main_bk">#f5f5f5</color>
+
+    <color name="text_huise">#BFBFBF</color>
+
+    <color name="tab_lanse">#484E5A</color>
+    <color name="tab_red">#FA5146</color>
+
+    <!--导航字颜色-->
+    <color name="main_text_color">#FA5146</color>
+    <!--app深色字颜色-->
+    <color name="app_main_text_color">#333333</color>
+    <!--app深颜色字-->
+    <color name="app_text_color1">#1A1A1A</color>
+    <!--app浅颜色字-->
+    <color name="app_text_color2">#808080</color>
+    <color name="gary">#898989</color>
+</resources>

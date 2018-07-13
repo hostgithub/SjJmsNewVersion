@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bk"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_search_shape">
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon_edit_search"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:hint="@string/search_goods"
+                android:imeOptions="actionSearch"
+                android:paddingLeft="6dp"
+                android:paddingRight="30dp"
+                android:singleLine="true"
+                android:textColor="@color/app_text_color1"
+                android:textColorHint="#9B9B9B"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/font_size_middle" />
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_edit_del"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="取消"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/font_size_normal" />
+    </LinearLayout>
+
+
+    <ScrollView android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" android:paddingLeft="20dp">
+
+                <TextView android:id="@+id/tv_tip" android:layout_width="match_parent"
+                    android:layout_height="50dp" android:gravity="left|center_vertical"
+                    android:text="搜索历史" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <com.gdtc.sjjms.widget.MyListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#EEEEEE"/>
+
+            <TextView android:id="@+id/tv_clear" android:layout_width="match_parent"
+                android:layout_height="40dp" android:background="#F6F6F6"
+                android:gravity="center" android:text="清除搜索历史"/>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:layout_marginBottom="20dp" android:background="#EEEEEE"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

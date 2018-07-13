@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
+            android:background="@color/main_bk"
+            android:orientation="vertical"></LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@+id/rg_menu"
+            android:background="@color/main_bk" />
+
+        <RadioGroup
+            android:id="@+id/rg_menu"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/btn_first"
+                style="@style/MainRadioButtonTheme"
+                android:checked="true"
+                android:drawableTop="@drawable/main_home_bg"
+                android:text="@string/main_home"
+                android:textColor="@color/main_nav_text_color" />
+
+            <RadioButton
+                android:id="@+id/btn_third"
+                style="@style/MainRadioButtonTheme"
+                android:drawableTop="@drawable/main_order_bg"
+                android:text="@string/main_order"
+                android:textColor="@color/main_nav_text_color" />
+            <RadioButton
+                android:id="@+id/btn_second"
+                style="@style/MainRadioButtonTheme"
+                android:drawableTop="@drawable/main_nearby_bg"
+                android:text="@string/main_nearby"
+                android:textColor="@color/main_nav_text_color" />
+
+            <RadioButton
+                android:id="@+id/btn_four"
+                style="@style/MainRadioButtonTheme"
+                android:drawableTop="@drawable/main_mine_bg"
+                android:text="@string/main_mine"
+                android:textColor="@color/main_nav_text_color" />
+        </RadioGroup>
+    </RelativeLayout>
+
+</RelativeLayout>

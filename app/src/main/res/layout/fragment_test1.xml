@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bk"
+    android:orientation="vertical">
+
+    <!--头部栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/icon_address"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:ems="5"
+            android:lines="1"
+            android:text="麓谷企业广场"
+            android:textColor="@color/app_text_color1"
+            android:textSize="@dimen/font_size_middle" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/btn_search_shape">
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon_edit_search"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="35dp"
+                android:paddingRight="30dp"
+                android:singleLine="true"
+                android:text="@string/search_goods"
+                android:textColor="#9B9B9B"
+                android:textSize="@dimen/font_size_middle" />
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_edit_del"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/icon_padding"
+            android:src="@drawable/icon_edit_del" />
+    </RelativeLayout>
+
+    <com.qbw.customview.RefreshLoadMoreLayout
+        android:id="@+id/refreshloadmore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rll_header_progress="@drawable/p1"
+        app:rll_header_progress_size="22dp">
+
+        <com.gdtc.sjjms.widget.CustomScrollView
+            android:id="@+id/sv_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--轮播图布局-->
+                <FrameLayout
+                    android:id="@+id/fl_banner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dip"
+                    android:layout_alignParentTop="true">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_points"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"></LinearLayout>
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_shops_rec"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:drawableTop="@drawable/icon_shops_rec"
+                        android:gravity="center_horizontal"
+                        android:text="商家推荐"
+                        android:textColor="@color/app_main_text_color"
+                        android:textSize="@dimen/font_size_middle" />
+
+                    <TextView
+                        android:id="@+id/tv_lianqu_store"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:drawableTop="@drawable/icon_shops_rec"
+                        android:gravity="center_horizontal"
+                        android:text="连趣商城"
+                        android:textColor="@color/app_main_text_color"
+                        android:textSize="@dimen/font_size_middle" />
+
+                    <TextView
+                        android:id="@+id/tv_play_game"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:drawableTop="@drawable/icon_shops_rec"
+                        android:gravity="center_horizontal"
+                        android:text="玩玩游戏"
+                        android:textColor="@color/app_main_text_color"
+                        android:textSize="@dimen/font_size_middle" />
+
+                    <TextView
+                        android:id="@+id/tv_live"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:drawableTop="@drawable/icon_shops_rec"
+                        android:gravity="center_horizontal"
+                        android:text="看看直播"
+                        android:textColor="@color/app_main_text_color"
+                        android:textSize="@dimen/font_size_middle" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_top_bar"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/icon_padding"
+                    android:text="附近商家"
+                    android:textColor="@color/app_main_text_color"
+                    android:textSize="@dimen/font_size_normal" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/icon_padding">
+
+                    <ImageView
+                        android:id="@+id/civ_shops_head"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_shops_head"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/civ_shops_head"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/btn_yellow_shape"
+                                android:paddingBottom="3dp"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:text="品牌"
+                                android:textColor="#6C5603"
+                                android:textSize="@dimen/font_size_middle" />
+
+                            <TextView
+                                android:id="@+id/tv_shops_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="小丫头的店"
+                                android:textColor="@color/app_text_color1"
+                                android:textSize="@dimen/font_size_normal" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/ll_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal" />
+
+                            <TextView
+                                android:id="@+id/tv_grade"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/ll_star"
+                                android:textColor="@color/app_text_color2"
+                                android:textSize="@dimen/font_size_middle" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_enter_shops"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/btn_red_shape"
+                            android:text="进入店铺"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_middle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/btn_enter_shops"
+                            android:layout_marginTop="5dp"
+                            android:drawableLeft="@drawable/icon_distance"
+                            android:drawablePadding="3dp"
+                            android:text="梅溪湖 1.1km"
+                            android:textColor="@color/app_text_color2"
+                            android:textSize="@dimen/font_size_middle" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <com.gdtc.sjjms.widget.MyListView
+                    android:id="@+id/lv_rec_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp"
+                    android:divider="@null"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
+        </com.gdtc.sjjms.widget.CustomScrollView>
+    </com.qbw.customview.RefreshLoadMoreLayout>
+</LinearLayout>
