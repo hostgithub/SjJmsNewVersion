@@ -39,7 +39,7 @@ public class TopAdapter extends InfinitePagerAdapter
     @Override
     public int getItemCount()
     {
-//        return mList == null ? 0 : mList.size();
+//        icon_back mList == null ? 0 : mList.size();
         return resultsBeanList == null ? 0 : resultsBeanList.size();
     }
 

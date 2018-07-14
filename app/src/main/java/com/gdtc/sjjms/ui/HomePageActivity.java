@@ -16,6 +16,7 @@ import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.ApplicationEntity;
 import com.gdtc.sjjms.fragment.HomeFragment;
 import com.gdtc.sjjms.fragment.MineFragmentTest;
+import com.gdtc.sjjms.fragment.NearbyFragment;
 import com.gdtc.sjjms.fragment.RemenFragment;
 import com.gdtc.sjjms.presenter.MainContract;
 import com.gdtc.sjjms.presenter.MainPresenter;
@@ -84,7 +85,7 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
         }else{      //正常启动时调用
             btn_first.setSelected(true);
             fragments.add(new HomeFragment());
-            fragments.add(new HomeFragment());
+            fragments.add(new NearbyFragment());
             fragments.add(new RemenFragment());
             fragments.add(new MineFragmentTest());
             showFragment();

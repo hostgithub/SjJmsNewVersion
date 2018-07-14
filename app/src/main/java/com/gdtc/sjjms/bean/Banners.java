@@ -26,7 +26,7 @@ public class Banners implements Serializable
         this.results = results;
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable{
         /**
          * _id : 17753
          * url : /html/index/content/2013/04/images/news_113653214520300.jpg

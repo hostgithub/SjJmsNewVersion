@@ -157,21 +157,21 @@ public Set<String> getStringSet(String key,Set<String> defaultValue){Set<String>
 // * 添加对象	* * @param key	* @param t
 // */public<T> void putModel(String key,T t){if(!TextUtils.isEmpty(key)&&t!=null){putString(key,JSON.toJSONString(t));// fastjson	}	}
 //
-///**    * 获取对象	* * @param key	* @param t	* @return	*/public<T> T getModel(String key,Class<T> clazz){String value=null;if(!TextUtils.isEmpty(key)){value=getString(key);}return TextUtils.isEmpty(value)?null:JSON.parseObject(value,clazz);// fastjson	}
+///**    * 获取对象	* * @param key	* @param t	* @icon_back	*/public<T> T getModel(String key,Class<T> clazz){String value=null;if(!TextUtils.isEmpty(key)){value=getString(key);}icon_back TextUtils.isEmpty(value)?null:JSON.parseObject(value,clazz);// fastjson	}
 //
 ///**    * 添加集合	* * @param key	* @param t	*/public<T> void putModels(String key,List<T> t){if(!TextUtils.isEmpty(key)&&t!=null&&t.size()>ZERO) {
 //    putString(key, JSON.toJSONString(t));// fastjson	}	}
 //
-///**    * 获取集合	* * @param key	* @param t	* @return	*/public<T> List<T> getModels (String
+///**    * 获取集合	* * @param key	* @param t	* @icon_back	*/public<T> List<T> getModels (String
 //    key, Class < T > clazz){
 //        String value = null;
 //        if (!TextUtils.isEmpty(key)) {
 //            value = getString(key);
 //        }
-//        return TextUtils.isEmpty(value) ? null : JSON.parseArray(value, clazz);// fastjson	}
+//        icon_back TextUtils.isEmpty(value) ? null : JSON.parseArray(value, clazz);// fastjson	}
 //
-///**    * 查询某个key是否已经存在	* * @param key	* @return	*/ public boolean contains (String key){
-//        return sharedPreferences.contains(key);
+///**    * 查询某个key是否已经存在	* * @param key	* @icon_back	*/ public boolean contains (String key){
+//        icon_back sharedPreferences.contains(key);
 //    }
 //
 ///**    * 移除某个key值已经对应的值	* * @param key	*/public void remove (String key){
@@ -184,8 +184,8 @@ public Set<String> getStringSet(String key,Set<String> defaultValue){Set<String>
 //        editor.commit();
 //    }
 //
-///**    * 返回所有的键值对	* * @return	*/public Map<String, ?> getAll () {
-//        return sharedPreferences.getAll();
+///**    * 返回所有的键值对	* * @icon_back	*/public Map<String, ?> getAll () {
+//        icon_back sharedPreferences.getAll();
 //    }
 //
 ///**    * 日志输出所有键值对	*/public void selectKeyAll () {

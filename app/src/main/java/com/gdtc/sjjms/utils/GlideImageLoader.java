@@ -37,6 +37,6 @@ public class GlideImageLoader extends ImageLoader {
 //    public ImageView createImageView(Context context) {
 //        //使用fresco，需要创建它提供的ImageView，当然你也可以用自己自定义的具有图片加载功能的ImageView
 //        SimpleDraweeView simpleDraweeView=new SimpleDraweeView(context);
-//        return simpleDraweeView;
+//        icon_back simpleDraweeView;
 //    }
 }

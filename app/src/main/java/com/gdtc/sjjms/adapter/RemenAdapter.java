@@ -55,12 +55,12 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        if (viewType == ITEM_NOIMAGE) {
-//            return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
+//            icon_back new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
 //        } else if (viewType == ITEM_HASIMAGE) {
-//            return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
+//            icon_back new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
 //        } else {
 //            footerView = LayoutInflater.from(mContext).inflate(viewFooter, parent, false);
-//            return new BaseViewHolder(footerView);
+//            icon_back new BaseViewHolder(footerView);
 //        }
 
         return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
@@ -165,14 +165,14 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //        int type = ITEM_HASIMAGE;
 //        if (viewFooter != 0 && position == getItemCount() - 1) {
 //            type = TYPE_FOOTER;
-//            return type;
+//            icon_back type;
 //        }
 //        if (TextUtils.isEmpty(datas.get(position)._id)) {
 //            type = ITEM_NOIMAGE;
 //        } else {
 //            type = ITEM_HASIMAGE;
 //        }
-//        return type;
+//        icon_back type;
     }
 
     public void addFooterView(int footerView) {

@@ -64,7 +64,7 @@ public class FrescoUtils {
 //
 //        Bitmap smallBitmap =   Bitmap.createScaledBitmap(bkg,bkg.getWidth()/downSampling,bkg.getHeight()/downSampling,true);
 //
-//        return   NativeStackBlur.process(smallBitmap, radius);
+//        icon_back   NativeStackBlur.process(smallBitmap, radius);
 //    }
 
 
@@ -368,13 +368,13 @@ public class FrescoUtils {
     }
 
     /**
-     *this method is return very fast, you can use it in UI thread.
+     *this method is icon_back very fast, you can use it in UI thread.
      * @param url
      * @return 该url对应的图片是否已经缓存到本地
      */
     public static boolean isCached(String url) {
 
-        // return Fresco.getImagePipeline().isInDiskCache(Uri.parse(url));
+        // icon_back Fresco.getImagePipeline().isInDiskCache(Uri.parse(url));
 
         ImageRequest imageRequest = ImageRequest.fromUri(url);
         CacheKey cacheKey = DefaultCacheKeyFactory.getInstance()

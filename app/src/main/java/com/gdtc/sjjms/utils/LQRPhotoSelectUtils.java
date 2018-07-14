@@ -167,7 +167,7 @@ public class LQRPhotoSelectUtils {
         intent.putExtra("mOutputY", mOutputY);
 
         // 是否返回uri
-        intent.putExtra("return-data", false);
+        intent.putExtra("icon_back-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
@@ -262,7 +262,7 @@ public class LQRPhotoSelectUtils {
      */
     private String generateImgePath() {
         return getExternalStoragePath() + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        //        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";//测试用
+        //        icon_back Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";//测试用
     }
 
 

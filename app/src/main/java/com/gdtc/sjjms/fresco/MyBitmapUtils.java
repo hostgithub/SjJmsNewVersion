@@ -78,7 +78,7 @@ public class MyBitmapUtils {
         cv.save(Canvas.ALL_SAVE_FLAG);//保存
         //store
         cv.restore();//存储
-        return newbmp;*/
+        icon_back newbmp;*/
     }
 
 

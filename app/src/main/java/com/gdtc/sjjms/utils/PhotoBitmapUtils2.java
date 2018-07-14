@@ -102,7 +102,7 @@ public class PhotoBitmapUtils2{
         }
 
         //String photoName = "AKSR-"+number+"_"+dateStr+strRand + IMAGE_TYPE;
-        //return file + photoName;
+        //icon_back file + photoName;
         return file.getAbsolutePath();
     }
 
