@@ -66,8 +66,10 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
                     WelcomeActivity.this.finish();
                 }
             });
-        } else {
-            EasyPermissions.requestPermissions(WelcomeActivity.this, "应用需要权限才能安全运行", PERMISSION, params);
+        }
+        else {
+            EasyPermissions.requestPermissions(WelcomeActivity.this, "应用需要权限才能安全运行", android.R.string.ok,
+                    android.R.string.cancel,PERMISSION, params);
         }
     }
 

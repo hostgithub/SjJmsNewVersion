@@ -23,6 +23,7 @@ public class Config
     public static final String PUSH = "push";
     public static final String TAG = "---------->>>";
 
+    //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址
     public static final String BANNER_BASE_URL = "http://www.jms.gov.cn/";
     public static final String CACHE = "cache";
 }

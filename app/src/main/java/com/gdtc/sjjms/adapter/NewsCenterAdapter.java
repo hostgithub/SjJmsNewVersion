@@ -94,7 +94,7 @@ public class NewsCenterAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //            }
 
             holder.setText(R.id.title, "哈根达斯");
-            holder.setText(R.id.content, item.addTime);
+            holder.setText(R.id.content, "湘菜");
 
 //            holder.setText(R.id.author, item.getAuthor());
 //            holder.setText(R.id.seeNum, item.getWatch());

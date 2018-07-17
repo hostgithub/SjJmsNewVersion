@@ -1,5 +1,7 @@
 package com.gdtc.sjjms.service;
 
+import com.gdtc.sjjms.bean.AreaOneBean;
+import com.gdtc.sjjms.bean.AreaTwoBean;
 import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.NewCenter;
 
@@ -22,6 +24,11 @@ public interface Api {
     @GET("app/corTabloid.do")
     Call<NewCenter> getNewCenterData(@Query("id") String id, @Query("pages") int pages);
 
+    @GET("client/android/getRegionalList.action")//一级列表
+    Call<AreaOneBean> getAreaOneBeanData();
+
+    @GET("client/android/getUpRegionalList.action")//一级列表
+    Call<AreaTwoBean> getAreaTwoBeanData(@Query("regionalId") String regionalId);
 //    //http://192.168.0.122:8080//app/corGetById.do?id=103558   获取轮播图详情json
 //    @GET("app/corGetById.do")
 //    Call<Detail> getDetailData(@Query("id") int id);

@@ -91,6 +91,7 @@
                 android:background="@drawable/gray_lin"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tv_fujin"
                     android:text="附近"
                     android:drawableRight="@drawable/arrow_down"
                     android:layout_centerVertical="true"

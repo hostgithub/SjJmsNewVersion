@@ -65,7 +65,7 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         translucentScrollView.setTransView(actionBar);
         //设置ActionBar键渐变颜色
 //        translucentScrollView.setTransColor(getResources().getColor(R.color.orange_dft));
-        translucentScrollView.setTransColor(getResources().getColor(R.color.snow));
+        translucentScrollView.setTransColor(getResources().getColor(R.color.white));
 
 //        zoomView = findViewById(R.id.lay_header);
         //关联伸缩的视图

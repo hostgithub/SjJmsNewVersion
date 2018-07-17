@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -14,16 +15,35 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseFragment;
+import com.gdtc.sjjms.bean.AreaOneBean;
+import com.gdtc.sjjms.bean.AreaTwoBean;
+import com.gdtc.sjjms.event.EventUtil;
+import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.utils.DoubleListPopViewUtil;
 import com.gdtc.sjjms.utils.Utils;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NearbyFragment extends BaseFragment {
 
     private Unbinder mUnbinder;
+    @BindView(R.id.xrecyclerview)
+    XRecyclerView xrecyclerview;
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
@@ -33,6 +53,14 @@ public class NearbyFragment extends BaseFragment {
     TextView tv_location;
     @BindView(R.id.rl_location)
     RelativeLayout rl_location;
+
+    @BindView(R.id.tv_fujin)
+    TextView tv_fujin;
+    private int selectedPosition;//根目录被选中的节点
+    private DoubleListPopViewUtil areaPopupWindow;
+    private List<AreaOneBean.ResultsBean> rootList;//根目录的节点
+//    private List<List<String>> subItemList;// 子目录节点
+    private List<AreaTwoBean.ResultsBean> subItemList;// 子目录节点
 
     @Override
     public int getLayoutId() {
@@ -49,7 +77,19 @@ public class NearbyFragment extends BaseFragment {
         mUnbinder = ButterKnife.bind(this, view);
         //初始化定位
         initLocation();
-         startLocation();
+        startLocation();
+        rootList = new ArrayList<>();
+        subItemList = new ArrayList<>();
+
+        initAreaOneData();
+//        for (int i=0;i<5;i++) {
+//            rootList.add("分类"+i);
+//            List<String> temp = new ArrayList<>();
+//            for (int j=0;j<(i+3);j++){
+//                temp.add("二级分类"+j);
+//            }
+//            subItemList.add(temp);
+//        }
     }
 
     @Override
@@ -59,6 +99,73 @@ public class NearbyFragment extends BaseFragment {
     @Override
     protected void lazyFetchData() {
 
+    }
+
+
+    private void initAreaOneData() {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl("http://192.168.0.111:10021/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<AreaOneBean> call=api.getAreaOneBeanData();
+        call.enqueue(new Callback<AreaOneBean>() {
+            @Override
+            public void onResponse(Call<AreaOneBean> call, Response<AreaOneBean> response) {
+                rootList.addAll(response.body().getResults());
+                Log.e("xxxxxx",response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<AreaOneBean> call, Throwable t) {
+                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+//    private void initAreaTwoData(String id) {
+//        //使用retrofit配置api
+//        Retrofit retrofit=new Retrofit.Builder()
+//                .baseUrl("http://192.168.0.111:10021/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        Api api =retrofit.create(Api.class);
+//        Call<AreaTwoBean> call=api.getAreaTwoBeanData(id);
+//        call.enqueue(new Callback<AreaTwoBean>() {
+//            @Override
+//            public void onResponse(Call<AreaTwoBean> call, Response<AreaTwoBean> response) {
+//                if(subItemList!=null){
+//                    subItemList.clear();
+//                }
+//                subItemList.addAll(response.body().getResults());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AreaTwoBean> call, Throwable t) {
+//                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+    /**
+     * 地区选择的popupwindow
+     */
+    private void showAreaPopBtn() {
+
+        areaPopupWindow = new DoubleListPopViewUtil(getContext(), tv_fujin, rootList) {
+            @Override
+            public void onRootListviewOnClick(View v, int position) {
+                selectedPosition = position;
+                //initAreaTwoData(rootList.get(position).getRegionalId());
+            }
+
+            @Override
+            public void onSubListviewOnClick(View v, int position) {
+                //tv_fujin.setText(subItemList.get(position).getRegionalStreet());
+                areaPopupWindow.dismiss();
+            }
+        };
+        areaPopupWindow.show();
     }
 
     /**
@@ -109,7 +216,6 @@ public class NearbyFragment extends BaseFragment {
         @Override
         public void onLocationChanged(final AMapLocation location) {
             if (null != location) {
-
                 StringBuffer sb = new StringBuffer();
                 //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
                 if(location.getErrorCode() == 0){
@@ -192,11 +298,14 @@ public class NearbyFragment extends BaseFragment {
     }
 
 
-    @OnClick({ R.id.iv_refresh})
+    @OnClick({ R.id.iv_refresh,R.id.tv_fujin})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_refresh:
                startLocation();
+                break;
+            case R.id.tv_fujin:
+                showAreaPopBtn();
                 break;
             default:
                 break;
@@ -255,5 +364,32 @@ public class NearbyFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         destroyLocation();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!EventBus.getDefault().isRegistered(this))
+        {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    /*个人建议在onPause注册EventBus(将当前Activity注册为事件订阅者)
+    *不影响功能的情况下提早解除注册，尽可能少的占用内存
+    */
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+
+    // 接收函数二
+    @Subscribe
+    public void onEventBackgroundThread(EventUtil event){
+        String msglog = "----onEventBackground收到了消息："+event.getMsg();
+        Log.d("EventBus",msglog);
+        tv_fujin.setText(event.getMsg());
     }
 }
