@@ -25,5 +25,6 @@ public class Config
 
     //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址  //  请求是写死的基地址
     public static final String BANNER_BASE_URL = "http://www.jms.gov.cn/";
+    public static final String NEARBY_BASE_URL = "http://192.168.0.111:10021/";
     public static final String CACHE = "cache";
 }

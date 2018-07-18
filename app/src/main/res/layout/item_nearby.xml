@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertica" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@drawable/shape_card">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:padding="20px"
+    android:layout_height="wrap_content" android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/seller_image"
+        android:src="@drawable/image_empty"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20px">
+
+        <TextView
+            android:id="@+id/seller_name"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginTop="6px"
+            android:text="哈根达斯"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/seller_price"
+            android:textColor="@color/gray_dft"
+            android:textSize="13sp"
+            android:text="人均消费"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/seller_kind"
+            android:textColor="@color/gary"
+            android:textSize="13sp"
+            android:text="西餐"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/seller_location"
+            android:textColor="@color/gary"
+            android:textSize="13sp" android:layout_marginLeft="10px"
+            android:text="中央大街" android:layout_toRightOf="@+id/seller_kind"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

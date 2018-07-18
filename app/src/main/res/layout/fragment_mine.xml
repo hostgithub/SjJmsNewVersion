@@ -17,7 +17,7 @@
                 android:id="@+id/lay_header"
                 android:layout_width="match_parent"
                 android:layout_height="248dp"
-                android:background="@mipmap/bg_banner_my"
+                android:background="@mipmap/bg_mine"
                 android:orientation="vertical">
 
                 <View
@@ -41,7 +41,6 @@
                             android:layout_width="105dp"
                             android:layout_height="105dp"
                             android:layout_centerInParent="true"
-                            android:scaleType="fitXY"
                             android:src="@mipmap/dft_avatar" />
                     </RelativeLayout>
 
@@ -58,7 +57,7 @@
                             style="@style/text_white"
                             android:layout_gravity="center_horizontal"
                             android:text="@string/author"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="15sp" />
 
                         <TextView
@@ -73,6 +72,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -320,7 +320,7 @@
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="16dp"
-                        android:background="@mipmap/ic_luck_my" />
+                        android:background="@mipmap/ic_set_my" />
 
                     <TextView
                         style="@style/text_black"
@@ -380,6 +380,7 @@
                     android:background="@color/bg_main" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/lay_set"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"

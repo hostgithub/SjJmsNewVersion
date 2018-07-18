@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.bean.AreaOneBean;
 import com.gdtc.sjjms.bean.AreaTwoBean;
@@ -104,7 +105,7 @@ public abstract class DoubleListPopViewUtil {
                     AdapterView<?> parent, View view,
                     int position, long id) {
                 // TODO Auto-generated method stub
-                EventBus.getDefault().post(new EventUtil(sub_items.get(position).getRegionalStreet()));
+                EventBus.getDefault().post(new EventUtil(sub_items.get(position).getRegionalId(),sub_items.get(position).getRegionalStreet()));
                onSubListviewOnClick(view,position);
             }
         });
@@ -114,7 +115,7 @@ public abstract class DoubleListPopViewUtil {
     private void initAreaTwoData(String id) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl("http://192.168.0.111:10021/")
+                .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Api api =retrofit.create(Api.class);

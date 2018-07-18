@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -47,11 +49,18 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
     @Override
     protected int getLayoutId() {
         Fresco.initialize(this);
+
+        /**全屏设置，隐藏窗口所有装饰**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /**标题是属于View的，所以窗口所有的修饰部分被隐藏后标题依然有效,需要去掉标题**/
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         return R.layout.activity_welcome;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+
         init();
         /**
          * 6.0系统动态权限申请需要
@@ -118,7 +127,8 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
         int page = CommonUtils.getRandomNumber(0, imgList.size() - 1);
 
         FrescoUtils.loadAssetsPic(mImg,imgList.get(page));
-        mImg.animate().scaleX(1.12f).scaleY(1.12f).setDuration(2000).setStartDelay(100).start();
+//        mImg.animate().scaleX(1.12f).scaleY(1.12f).setDuration(2000).setStartDelay(100).start();
+        mImg.animate().setDuration(2000).setStartDelay(100).start();
 
 //        Observable.timer(COUNT_DOWN_TIME, TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
 //            @Override
@@ -131,11 +141,11 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
 
     private List<String> getImgData() {
         List<String> imgs = new ArrayList<>();
-        imgs.add("bg_1.jpg");
-        imgs.add("bg_2.jpg");
-        imgs.add("bg_3.jpg");
-        imgs.add("bg_4.jpg");
-        imgs.add("bg_5.jpg");
+        imgs.add("splash.jpg");
+        imgs.add("splash.jpg");
+        imgs.add("splash.jpg");
+        imgs.add("splash.jpg");
+        imgs.add("splash.jpg");
         return imgs;
     }
 

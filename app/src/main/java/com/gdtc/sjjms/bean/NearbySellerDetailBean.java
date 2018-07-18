@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by wangjiawei on 2018-7-17.
+ * Created by wangjiawei on 2018-7-18.
  */
 
-public class NearbySellerBean implements Serializable {
+public class NearbySellerDetailBean implements Serializable {
 
 
     /**
-     * results : [{"BusinessInfoId":"234321a7-b578-4e9a-8f84-7977caf7bd7f","BusinessName":"青藤小院烧烤","Score":"null","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15318169045030.png","BusinessAbbreviation":"商家简称","BusinessIntroduction":"商家介绍","BusinessStory":"品牌故事","BusinessService":"商家所提供的服务","StartHours":"2018-07-17 00:00:00","EndHours":"2018-07-17 00:00:00","BusinessAddress":"1-222","BusinessPhone":"13988776655","BusinessPeople":"比某某","IsCharacteristic":"0","BusinessNotice":"12","BusinessActivity":"12","Category":"烤鱿鱼,"}]
+     * results : [{"BusinessInfoId":"234321a7-b578-4e9a-8f84-7977caf7bd7f","BusinessName":"青藤小院烧烤","Score":"null","BusinessTitleImage":"/html/file/businessinfo/images/businessinfo_admin_1_15318169045030.png","BusinessAbbreviation":"商家简称","BusinessIntroduction":"商家介绍","BusinessStory":"品牌故事","BusinessService":"商家所提供的服务","StartHours":"2018-07-17 00:00:00","EndHours":"2018-07-17 00:00:00","BusinessAddress":"1-222","BusinessPhone":"13988776655","BusinessPeople":"比某某","IsCharacteristic":"0","BusinessNotice":"12","BusinessActivity":"12","Category":"烤鱿鱼,"}]
      * success : true
      */
 
@@ -39,7 +39,7 @@ public class NearbySellerBean implements Serializable {
          * BusinessInfoId : 234321a7-b578-4e9a-8f84-7977caf7bd7f
          * BusinessName : 青藤小院烧烤
          * Score : null
-         * BusinessTitleImage : http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15318169045030.png
+         * BusinessTitleImage : /html/file/businessinfo/images/businessinfo_admin_1_15318169045030.png
          * BusinessAbbreviation : 商家简称
          * BusinessIntroduction : 商家介绍
          * BusinessStory : 品牌故事

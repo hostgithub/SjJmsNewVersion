@@ -1,6 +1,8 @@
 package com.gdtc.sjjms.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +15,17 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
+import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
+import com.gdtc.sjjms.adapter.NearbyAdapter;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.bean.AreaOneBean;
 import com.gdtc.sjjms.bean.AreaTwoBean;
+import com.gdtc.sjjms.bean.NearbySellerBean;
+import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.event.EventUtil;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.ui.NearSellerActivity;
 import com.gdtc.sjjms.utils.DoubleListPopViewUtil;
 import com.gdtc.sjjms.utils.Utils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -44,6 +51,11 @@ public class NearbyFragment extends BaseFragment {
     private Unbinder mUnbinder;
     @BindView(R.id.xrecyclerview)
     XRecyclerView xrecyclerview;
+    private LinearLayoutManager linearLayoutManager;
+    private ArrayList<NearbySellerBean.ResultsBean> list;
+    private NearbyAdapter nearbyAdapter;
+    private int pages=1;
+    private String nearId;
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
@@ -90,6 +102,49 @@ public class NearbyFragment extends BaseFragment {
 //            }
 //            subItemList.add(temp);
 //        }
+
+        list=new ArrayList();
+//        initNearbyData(1);
+        linearLayoutManager=new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        xrecyclerview.setLayoutManager(linearLayoutManager);
+        xrecyclerview.setHasFixedSize(true);
+        xrecyclerview.setNestedScrollingEnabled(false);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+
+
+        nearbyAdapter=new NearbyAdapter(getActivity(),list);
+
+        //条目点击事件
+        nearbyAdapter.setOnItemClickLitener(new NearbyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                getNearbyData(list.get(position).getBusinessInfoId());
+//                Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(getContext(), NearSellerActivity.class));
+            }
+        });
+
+        xrecyclerview.setAdapter(nearbyAdapter);
+//        xrecyclerview.setAdapter(nearbyAdapter);
+
+        xrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                pages = 1;
+                list.clear();
+                nearbyAdapter.notifyDataSetChanged();
+                initNearbyData(1,nearId);
+                xrecyclerview.refreshComplete();
+            }
+
+            @Override
+            public void onLoadMore() {
+                pages++;
+                initNearbyData(pages,nearId);
+                xrecyclerview.loadMoreComplete();
+            }
+        });
     }
 
     @Override
@@ -105,7 +160,7 @@ public class NearbyFragment extends BaseFragment {
     private void initAreaOneData() {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl("http://192.168.0.111:10021/")
+                .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Api api =retrofit.create(Api.class);
@@ -124,29 +179,6 @@ public class NearbyFragment extends BaseFragment {
         });
     }
 
-//    private void initAreaTwoData(String id) {
-//        //使用retrofit配置api
-//        Retrofit retrofit=new Retrofit.Builder()
-//                .baseUrl("http://192.168.0.111:10021/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        Api api =retrofit.create(Api.class);
-//        Call<AreaTwoBean> call=api.getAreaTwoBeanData(id);
-//        call.enqueue(new Callback<AreaTwoBean>() {
-//            @Override
-//            public void onResponse(Call<AreaTwoBean> call, Response<AreaTwoBean> response) {
-//                if(subItemList!=null){
-//                    subItemList.clear();
-//                }
-//                subItemList.addAll(response.body().getResults());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<AreaTwoBean> call, Throwable t) {
-//                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
     /**
      * 地区选择的popupwindow
      */
@@ -209,65 +241,7 @@ public class NearbyFragment extends BaseFragment {
     }
 
 
-    /**
-     * 定位监听
-     */
-    AMapLocationListener locationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(final AMapLocation location) {
-            if (null != location) {
-                StringBuffer sb = new StringBuffer();
-                //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
-                if(location.getErrorCode() == 0){
-                    tv_location.setText(location.getStreet());
-                    stopLocation();
-                    sb.append("定位成功" + "\n");
-                    sb.append("定位类型: " + location.getLocationType() + "\n");
-                    sb.append("经    度    : " + location.getLongitude() + "\n");
-                    sb.append("纬    度    : " + location.getLatitude() + "\n");
-                    sb.append("精    度    : " + location.getAccuracy() + "米" + "\n");
-                    sb.append("提供者    : " + location.getProvider() + "\n");
 
-                    sb.append("速    度    : " + location.getSpeed() + "米/秒" + "\n");
-                    sb.append("角    度    : " + location.getBearing() + "\n");
-                    // 获取当前提供定位服务的卫星个数
-                    sb.append("星    数    : " + location.getSatellites() + "\n");
-                    sb.append("国    家    : " + location.getCountry() + "\n");
-                    sb.append("省            : " + location.getProvince() + "\n");
-                    sb.append("市            : " + location.getCity() + "\n");
-                    sb.append("城市编码 : " + location.getCityCode() + "\n");
-                    sb.append("区            : " + location.getDistrict() + "\n");
-                    sb.append("区域 码   : " + location.getAdCode() + "\n");
-                    sb.append("地    址    : " + location.getAddress() + "\n");
-                    sb.append("兴趣点    : " + location.getPoiName() + "\n");
-                    //定位完成的时间
-                    sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
-                } else {
-                    //定位失败
-                    sb.append("定位失败" + "\n");
-                    sb.append("错误码:" + location.getErrorCode() + "\n");
-                    sb.append("错误信息:" + location.getErrorInfo() + "\n");
-                    sb.append("错误描述:" + location.getLocationDetail() + "\n");
-                }
-                sb.append("***定位质量报告***").append("\n");
-                sb.append("* WIFI开关：").append(location.getLocationQualityReport().isWifiAble() ? "开启":"关闭").append("\n");
-                sb.append("* GPS状态：").append(getGPSStatusString(location.getLocationQualityReport().getGPSStatus())).append("\n");
-                sb.append("* GPS星数：").append(location.getLocationQualityReport().getGPSSatellites()).append("\n");
-                sb.append("* 网络类型：" + location.getLocationQualityReport().getNetworkType()).append("\n");
-                sb.append("* 网络耗时：" + location.getLocationQualityReport().getNetUseTime()).append("\n");
-                sb.append("****************").append("\n");
-                //定位之后的回调时间
-                sb.append("回调时间: " + Utils.formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss") + "\n");
-
-                //解析定位结果，
-                String result = sb.toString();
-                Log.e("-----------",result);
-            } else {
-                tv_location.setText("定位失败，loc is null");
-                stopLocation();
-            }
-        }
-    };
 
 
     /**
@@ -387,9 +361,135 @@ public class NearbyFragment extends BaseFragment {
 
     // 接收函数二
     @Subscribe
-    public void onEventBackgroundThread(EventUtil event){
-        String msglog = "----onEventBackground收到了消息："+event.getMsg();
-        Log.d("EventBus",msglog);
-        tv_fujin.setText(event.getMsg());
+    public void onEventMainThread(EventUtil event){
+        String msglog = "----onEventBackground收到了消息："+event.getStreet();
+        Log.e("EventBus",msglog);
+        tv_fujin.setText(event.getStreet());
+        nearId=event.getId();
+        Log.e("------EventBus-------",event.getId());
+        initNearbyData(1,event.getId());
+
     }
+
+
+    private void initNearbyData(int pages,String id) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<NearbySellerBean> call=api.getNearbySellerData(pages,id);
+        call.enqueue(new Callback<NearbySellerBean>() {
+            @Override
+            public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {
+
+               if(response.body().getResults()==null){
+                   Toast.makeText(getContext(),"暂无数据",Toast.LENGTH_SHORT).show();
+               }else{
+                   list.clear();
+                   list.addAll(response.body().getResults());
+
+                   Log.e("xxxxxx",response.body().toString());
+                   nearbyAdapter.notifyDataSetChanged();
+               }
+            }
+
+            @Override
+            public void onFailure(Call<NearbySellerBean> call, Throwable t) {
+                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void getNearbyData(String id) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id);
+        call.enqueue(new Callback<NearbySellerDetailBean>() {
+            @Override
+            public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
+                if(response!=null){
+                    NearbySellerDetailBean nearbySellerDetailBean= (NearbySellerDetailBean) response.body().getResults();
+                    Intent intent=new Intent(getContext(), NearSellerActivity.class);
+                    intent.putExtra(Config.NEWS,nearbySellerDetailBean);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbySellerDetailBean> call, Throwable t) {
+                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /**
+     * 定位监听
+     */
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(final AMapLocation location) {
+            if (null != location) {
+                StringBuffer sb = new StringBuffer();
+                //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
+                if(location.getErrorCode() == 0){
+                    tv_location.setText(location.getStreet());
+                    stopLocation();
+                    sb.append("定位成功" + "\n");
+                    sb.append("定位类型: " + location.getLocationType() + "\n");
+                    sb.append("经    度    : " + location.getLongitude() + "\n");
+                    sb.append("纬    度    : " + location.getLatitude() + "\n");
+                    sb.append("精    度    : " + location.getAccuracy() + "米" + "\n");
+                    sb.append("提供者    : " + location.getProvider() + "\n");
+
+                    sb.append("速    度    : " + location.getSpeed() + "米/秒" + "\n");
+                    sb.append("角    度    : " + location.getBearing() + "\n");
+                    // 获取当前提供定位服务的卫星个数
+                    sb.append("星    数    : " + location.getSatellites() + "\n");
+                    sb.append("国    家    : " + location.getCountry() + "\n");
+                    sb.append("省            : " + location.getProvince() + "\n");
+                    sb.append("市            : " + location.getCity() + "\n");
+                    sb.append("城市编码 : " + location.getCityCode() + "\n");
+                    sb.append("区            : " + location.getDistrict() + "\n");
+                    sb.append("区域 码   : " + location.getAdCode() + "\n");
+                    sb.append("地    址    : " + location.getAddress() + "\n");
+                    sb.append("兴趣点    : " + location.getPoiName() + "\n");
+                    //定位完成的时间
+                    sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
+                } else {
+                    //定位失败
+                    sb.append("定位失败" + "\n");
+                    sb.append("错误码:" + location.getErrorCode() + "\n");
+                    sb.append("错误信息:" + location.getErrorInfo() + "\n");
+                    sb.append("错误描述:" + location.getLocationDetail() + "\n");
+                }
+                sb.append("***定位质量报告***").append("\n");
+                sb.append("* WIFI开关：").append(location.getLocationQualityReport().isWifiAble() ? "开启":"关闭").append("\n");
+                sb.append("* GPS状态：").append(getGPSStatusString(location.getLocationQualityReport().getGPSStatus())).append("\n");
+                sb.append("* GPS星数：").append(location.getLocationQualityReport().getGPSSatellites()).append("\n");
+                sb.append("* 网络类型：" + location.getLocationQualityReport().getNetworkType()).append("\n");
+                sb.append("* 网络耗时：" + location.getLocationQualityReport().getNetUseTime()).append("\n");
+                sb.append("****************").append("\n");
+                //定位之后的回调时间
+                sb.append("回调时间: " + Utils.formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss") + "\n");
+
+                //解析定位结果，
+                String result = sb.toString();
+                Log.e("-----------",result);
+            } else {
+                tv_location.setText("定位失败，loc is null");
+                stopLocation();
+            }
+        }
+    };
+
+
+
 }

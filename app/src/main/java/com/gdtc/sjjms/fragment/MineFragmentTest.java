@@ -1,19 +1,35 @@
 package com.gdtc.sjjms.fragment;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.impl.ActionBarClickListener;
+import com.gdtc.sjjms.utils.MyBitmapUtils;
+import com.gdtc.sjjms.utils.MyLogUtils;
+import com.gdtc.sjjms.utils.MyToastUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
+import com.gdtc.sjjms.widget.GlideCircleTransform;
 import com.gdtc.sjjms.widget.TranslucentActionBar;
 import com.gdtc.sjjms.widget.TranslucentScrollView;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by wangjiawei on 2017-11-13.
@@ -31,9 +47,14 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
     @BindView(R.id.lay_header)
      View zoomView;
 
+    @BindView(R.id.img_avatar)
+    ImageView img_avatar;
+    public static final int PHOTOZOOM = 0;
+    public static final int IMAGE_COMPLETE = 2; // 结果
+
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.fragment_mine;
     }
 
     @Override
@@ -98,12 +119,12 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         actionBar.tvTitle.setVisibility(transAlpha > 48 ? View.VISIBLE : View.GONE);
     }
 
-//    @OnClick({R.id.updataPasswordRlt,R.id.clear,R.id.logOutRlt})
-//    public void onClick(View view) {
-//        switch (view.getId()){
-//            case R.id.updataPasswordRlt:
-//               Toast.makeText(getContext(),"已是最新版本",Toast.LENGTH_SHORT).show();
-//                break;
+    @OnClick({R.id.img_avatar})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.img_avatar:
+                headIconDialog();
+                break;
 //            case R.id.clear:
 //                try {
 //                    DataCleanManagerUtils.clearAllCache(getActivity());
@@ -137,8 +158,58 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
 //                AlertDialog b=builder.create();
 //                b.show();  //必须show一下才能看到对话框，跟Toast一样的道理
 //                break;
-//            default:
-//                break;
-//        }
-//    }
+            default:
+                break;
+        }
+    }
+    /**
+     * 打开系统相册
+     */
+    private void headIconDialog() {
+        Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(openAlbumIntent, PHOTOZOOM);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri uri = null;
+        Intent intent = null;
+        switch (requestCode) {
+            case PHOTOZOOM:// 相册
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                if (data == null) {
+                    return;
+                }
+                uri = data.getData();
+                Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(getContext(), uri);
+                if (userbitmap == null) {//这里用于校验图片是否有误（可能是破损图）
+                    MyToastUtils.showShortToast(getContext(), "图片有误，请重新选择！");
+                    return;
+                }
+                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.jpeg");
+
+                //img_avatar.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "user_head.jpeg"));
+                Glide.with(getContext())
+                        .load(user_head)
+                        .transform(new GlideCircleTransform(getContext()))
+                        .into(img_avatar);
+
+//                intent = new Intent(getContext(), HomePageActivity.class);
+//                intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.jpeg");
+                MyLogUtils.info("拍照图片地址是：" + Environment.getExternalStorageDirectory() + "/" + "user_head.jpeg");
+//                startActivityForResult(intent, IMAGE_COMPLETE);
+                break;
+            case IMAGE_COMPLETE:// 完成
+                if (data != null) {
+                    String temppath = data.getStringExtra("path");
+//                    toloadfile(temppath);//这里上传头像到后台接口
+                    MyLogUtils.info(data + "裁剪完成地址。。。。");
+                }
+
+                break;
+        }
+    }
 }

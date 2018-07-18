@@ -5,13 +5,19 @@ package com.gdtc.sjjms.event;
  */
 
 public class EventUtil {
-    private String msg;
 
-    public EventUtil(String msg) {
-        this.msg = msg;
+    private String id;
+    private String street;
+
+    public EventUtil(String msg,String street) {
+        this.id = msg;
+        this.street = street;
     }
 
-    public String getMsg(){
-        return this.msg;
+    public String getId(){
+        return this.id;
+    }
+    public String getStreet(){
+        return this.street;
     }
 }

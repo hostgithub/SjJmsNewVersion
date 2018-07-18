@@ -106,7 +106,7 @@
                     android:background="@color/white"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/icon_padding"
-                    android:src="@drawable/title_b1" />
+                    android:src="@drawable/title_nearby" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
 
