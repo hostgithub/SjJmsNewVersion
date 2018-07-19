@@ -59,6 +59,8 @@ public class NearbyFragment extends BaseFragment {
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
+    private String longitude;
+    private String latitude;
     @BindView(R.id.iv_refresh)
     ImageView iv_refresh;
     @BindView(R.id.tv_location)
@@ -94,17 +96,9 @@ public class NearbyFragment extends BaseFragment {
         subItemList = new ArrayList<>();
 
         initAreaOneData();
-//        for (int i=0;i<5;i++) {
-//            rootList.add("分类"+i);
-//            List<String> temp = new ArrayList<>();
-//            for (int j=0;j<(i+3);j++){
-//                temp.add("二级分类"+j);
-//            }
-//            subItemList.add(temp);
-//        }
 
         list=new ArrayList();
-//        initNearbyData(1);
+//        initNearbyJWData(1,longitude,latitude);
         linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         xrecyclerview.setLayoutManager(linearLayoutManager);
@@ -183,6 +177,7 @@ public class NearbyFragment extends BaseFragment {
      * 地区选择的popupwindow
      */
     private void showAreaPopBtn() {
+
 
         areaPopupWindow = new DoubleListPopViewUtil(getContext(), tv_fujin, rootList) {
             @Override
@@ -276,9 +271,10 @@ public class NearbyFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_refresh:
-               startLocation();
+                startLocation();
                 break;
             case R.id.tv_fujin:
+//                initAreaOneData();
                 showAreaPopBtn();
                 break;
             default:
@@ -415,7 +411,7 @@ public class NearbyFragment extends BaseFragment {
             @Override
             public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
                 if(response!=null){
-                    NearbySellerDetailBean nearbySellerDetailBean= (NearbySellerDetailBean) response.body().getResults();
+                    NearbySellerDetailBean.ResultsBean nearbySellerDetailBean= response.body().getResults().get(0);
                     Intent intent=new Intent(getContext(), NearSellerActivity.class);
                     intent.putExtra(Config.NEWS,nearbySellerDetailBean);
                     startActivity(intent);
@@ -441,6 +437,9 @@ public class NearbyFragment extends BaseFragment {
                 //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
                 if(location.getErrorCode() == 0){
                     tv_location.setText(location.getStreet());
+                    longitude= String.valueOf(location.getLongitude());
+                    latitude= String.valueOf(location.getLatitude());
+                    initNearbyJWData(1,longitude,latitude);
                     stopLocation();
                     sb.append("定位成功" + "\n");
                     sb.append("定位类型: " + location.getLocationType() + "\n");
@@ -490,6 +489,36 @@ public class NearbyFragment extends BaseFragment {
         }
     };
 
+
+    private void initNearbyJWData(int pages,String jingdu,String weidu) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<NearbySellerBean> call=api.getNearbySellerListData(pages,jingdu,weidu);
+        call.enqueue(new Callback<NearbySellerBean>() {
+            @Override
+            public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {
+
+                if(response.body().getResults()==null){
+                    Toast.makeText(getContext(),"暂无数据",Toast.LENGTH_SHORT).show();
+                }else{
+                    list.clear();
+                    list.addAll(response.body().getResults());
+
+                    Log.e("xxxxxx",response.body().toString());
+                    nearbyAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbySellerBean> call, Throwable t) {
+                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 }

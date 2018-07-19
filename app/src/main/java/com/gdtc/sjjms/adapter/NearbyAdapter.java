@@ -6,10 +6,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseViewHolder;
 import com.gdtc.sjjms.bean.NearbySellerBean;
+import com.gdtc.sjjms.utils.ImageLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +92,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //                holder.setText(R.id.title, item.text);
 //            }
 
-//            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.seller_image), item.getBusinessTitleImage());
+            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.seller_image), item.getBusinessTitleImage());
             holder.setText(R.id.seller_name, item.getBusinessName());
             holder.setText(R.id.seller_price,  "人均消费:"+item.getConsumption());
             holder.setText(R.id.seller_kind,  item.getCategory());

@@ -29,14 +29,17 @@ public interface Api {
     @GET("client/android/getRegionalList.action")//一级列表
     Call<AreaOneBean> getAreaOneBeanData();
 
-    @GET("client/android/getUpRegionalList.action")//一级列表
+    @GET("client/android/getUpRegionalList.action")//二级列表
     Call<AreaTwoBean> getAreaTwoBeanData(@Query("regionalId") String regionalId);
 
 
-    @GET("/client/android/getBusinessInfoPage.action")
+    @GET("/client/android/getBusinessInfoPage.action")//商家列表
     Call<NearbySellerBean> getNearbySellerData(@Query("paging") int paging,@Query("businessRegional") String businessRegional);
 
 
-    @GET("/client/android/getBusinessInfoById.action")
+    @GET("/client/android/getBusinessInfoById.action")//商家详情
     Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId);
+
+    @GET("client/android/getSectionPage.action")//经纬度查询商家列表
+    Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude);
 }

@@ -8,8 +8,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseFragment;
@@ -49,6 +51,9 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
 
     @BindView(R.id.img_avatar)
     ImageView img_avatar;
+    @BindView(R.id.tv_name)
+    TextView tv_name;
+
     public static final int PHOTOZOOM = 0;
     public static final int IMAGE_COMPLETE = 2; // 结果
 
@@ -67,6 +72,9 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         mUnbinder = ButterKnife.bind(this, view);
         sp = new SharePreferenceTools(MyApplication.getContext());
         init();
+
+        tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
+        Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
     }
 
 

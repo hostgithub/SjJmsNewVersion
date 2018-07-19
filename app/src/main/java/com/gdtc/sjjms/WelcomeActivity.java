@@ -88,7 +88,7 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
         Observable.timer(COUNT_DOWN_TIME, TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
             @Override
             public void call(Long aLong) {
-                startActivity(new Intent(WelcomeActivity.this, HomePageActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, WeiXinActivity.class));
                 WelcomeActivity.this.finish();
             }
         });
@@ -154,7 +154,7 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
             public void run() {
                 int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
                 LogUtil.d("最高可用内存:" + maxMemory);
-//                startThenKill(MainActivity.class);//-------------------------------------------------------------------
+//                startThenKill(WeiXinActivity.class);//-------------------------------------------------------------------
                 startThenKill(HomePageActivity.class);//-------------------------------------------------------------------
                 WelcomeActivity.this.overridePendingTransition(R.anim.scale_in, R.anim.shrink_out);
             }

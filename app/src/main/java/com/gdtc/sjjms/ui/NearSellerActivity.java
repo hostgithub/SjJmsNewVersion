@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,6 +20,8 @@ public class NearSellerActivity extends BaseActivity {
 
     @BindView(R.id.tv_back)
     TextView tv_back;
+    @BindView(R.id.photoview)
+    PhotoView photoView;
     @BindView(R.id.iv_tuijian)
     ImageView iv_tuijian;
     @BindView(R.id.iv_coll)//收藏
@@ -64,6 +68,7 @@ public class NearSellerActivity extends BaseActivity {
         Intent intent=getIntent();
         nearbySellerDetailBean= (NearbySellerDetailBean.ResultsBean) intent.getSerializableExtra(Config.NEWS);
 
+        Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
         seller_price.setText(nearbySellerDetailBean.getConsumption());
         seller_kind.setText(nearbySellerDetailBean.getCategory());

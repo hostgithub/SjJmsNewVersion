@@ -67,7 +67,7 @@
                 android:scaleType="centerCrop"
                 android:background="@drawable/shape_corners"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="150dp" />
 
             <TextView android:id="@+id/seller_name"
                 android:text="重庆火锅(长江路)"
