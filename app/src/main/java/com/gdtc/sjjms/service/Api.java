@@ -6,6 +6,7 @@ import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
+import com.gdtc.sjjms.bean.UserInfo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -21,6 +22,10 @@ public interface Api {
 
     @POST("app/corNewsListImg.do")
     Call<Banners> getBannerData();
+
+    @GET("client/android/insertMember.action")//上传个人信息
+    Call<UserInfo> uploadInfo(@Query("openId") String openId, @Query("image") String image, @Query("name") String name);
+
 
     //http://192.168.0.124:8080/app/corTabloid.do?id=000100050007&pages=1   获取新闻中心列表json  固定ID
     @GET("app/corTabloid.do")

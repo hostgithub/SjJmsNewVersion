@@ -16,6 +16,8 @@ public class ConstantValue {
 
     public static final String WEIXIN_HEADURL="headurl";
 
+    public static final String WEIXIN_OPENID="openid";
+
     public static final String WEIXIN_NICKNAME="nickname";
 
 

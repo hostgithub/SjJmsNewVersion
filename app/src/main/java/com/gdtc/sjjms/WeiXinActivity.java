@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 
 
-   /**
+/**
     * 授权登录并且拿取Wx用户信息，简单三部曲：
     * 1.sendReq(req). 用户授权可以拿到 code
     *
@@ -64,7 +64,7 @@ public class WeiXinActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-        sharePreferenceTools=new SharePreferenceTools(WeiXinActivity.this);
+        sharePreferenceTools=new SharePreferenceTools(getApplicationContext());
 
         wechat_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +99,7 @@ public class WeiXinActivity extends BaseActivity {
         }
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "wx_login_duzun";
+        req.state = "wechat_sdk_demo";
         api.sendReq(req);
     }
 
@@ -183,8 +183,14 @@ public class WeiXinActivity extends BaseActivity {
                     headimgurl = jsonObject.getString("headimgurl");
                     unionid = jsonObject.getString("unionid");
 
+                    sharePreferenceTools.putString(ConstantValue.WEIXIN_OPENID,id);
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_HEADURL,headimgurl);
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_NICKNAME,nickName);
+
+                    Intent intent1 = new Intent(WeiXinActivity.this, HomePageActivity.class);
+                    startActivity(intent1);
+                    finish();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -203,11 +209,7 @@ public class WeiXinActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             getAccessToken();
-            Intent intent1 = new Intent(WeiXinActivity.this, HomePageActivity.class);
-            startActivity(intent1);
-            finish();
+
         }
     }
-
-
 }

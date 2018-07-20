@@ -8,12 +8,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
+import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.impl.ActionBarClickListener;
 import com.gdtc.sjjms.utils.MyBitmapUtils;
@@ -54,6 +57,9 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
     @BindView(R.id.tv_name)
     TextView tv_name;
 
+    @BindView(R.id.ll_collect)
+    LinearLayout ll_collect;
+
     public static final int PHOTOZOOM = 0;
     public static final int IMAGE_COMPLETE = 2; // 结果
 
@@ -73,8 +79,13 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         sp = new SharePreferenceTools(MyApplication.getContext());
         init();
 
-        tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
-        Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+        if(sp.getString(ConstantValue.WEIXIN_NICKNAME)==null){
+            tv_name.setText("用于登录");
+            img_avatar.setImageResource(R.drawable.unlogin);
+        }else {
+            tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
+            Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+        }
     }
 
 
@@ -127,11 +138,25 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         actionBar.tvTitle.setVisibility(transAlpha > 48 ? View.VISIBLE : View.GONE);
     }
 
-    @OnClick({R.id.img_avatar})
+    @OnClick({R.id.img_avatar,R.id.tv_name,R.id.ll_collect})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.img_avatar:
-                headIconDialog();
+                if(sp.getString(ConstantValue.WEIXIN_OPENID)==null){
+                    startActivity(new Intent(getContext(), WeiXinActivity.class));
+                }else {
+                    headIconDialog();
+                }
+                break;
+            case R.id.tv_name:
+
+                break;
+            case R.id.ll_collect:
+                if(sp.getString(ConstantValue.WEIXIN_OPENID)==null){
+                    startActivity(new Intent(getContext(), WeiXinActivity.class));
+                }else{
+                    Toast.makeText(getContext(),"收藏",Toast.LENGTH_LONG).show();
+                }
                 break;
 //            case R.id.clear:
 //                try {
@@ -220,4 +245,5 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
                 break;
         }
     }
+
 }

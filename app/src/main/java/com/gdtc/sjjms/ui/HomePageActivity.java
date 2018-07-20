@@ -11,17 +11,22 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.gdtc.sjjms.App;
+import com.gdtc.sjjms.Config;
+import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.ApplicationEntity;
+import com.gdtc.sjjms.bean.UserInfo;
 import com.gdtc.sjjms.fragment.HomeFragment;
 import com.gdtc.sjjms.fragment.MineFragmentTest;
 import com.gdtc.sjjms.fragment.NearbyFragment;
 import com.gdtc.sjjms.fragment.RemenFragment;
 import com.gdtc.sjjms.presenter.MainContract;
 import com.gdtc.sjjms.presenter.MainPresenter;
+import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.utils.AppInfoUtil;
 import com.gdtc.sjjms.utils.LogUtil;
+import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.gdtc.sjjms.utils.StatusBarUtil;
 import com.gdtc.sjjms.utils.UpdateDialog;
 
@@ -32,6 +37,11 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomePageActivity extends BaseActivity implements MainContract.View{
 
@@ -47,6 +57,7 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
     RadioButton btn_four;
 
     private MainContract.Presenter mPresenter;
+    private SharePreferenceTools sp;
 
     //当前显示的fragment
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
@@ -65,7 +76,6 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
     protected void initView(Bundle savedInstanceState) {
         //setStatusBar();
         mPresenter = new MainPresenter(this);
-
 
         fragmentManager = getSupportFragmentManager();
 
@@ -91,7 +101,7 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
             showFragment();
         }
 
-        mPresenter.checkUpdate("http://www.jms.gov.cn/app/update.json");
+//        mPresenter.checkUpdate("http://www.jms.gov.cn/app/update.json");
     }
 
     @OnClick({ R.id.btn_first,R.id.btn_second,R.id.btn_third,R.id.btn_four})
@@ -229,6 +239,7 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -281,5 +292,48 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
     @Override
     protected void onRestart() {
         super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sp=new SharePreferenceTools(getApplicationContext());
+
+        upload(sp.getString(ConstantValue.WEIXIN_OPENID),sp.getString(ConstantValue.WEIXIN_HEADURL), sp.getString(ConstantValue.WEIXIN_NICKNAME));
+    }
+
+
+
+//    // 接收函数二
+//    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+//    public void onEventBackgroundThread(EventUtil event){
+//
+//        Toast.makeText(HomePageActivity.this,event.getStreet(),Toast.LENGTH_LONG).show();
+//        upload("1234567890",event.getId(),event.getStreet());
+//
+//    }
+
+    private void upload(String id, String url, String name){
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<UserInfo> call=api.uploadInfo(id,url,name);
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                sp.putString(ConstantValue.WEIXIN_OPENID,response.body().getOpenId());
+                sp.putString(ConstantValue.WEIXIN_HEADURL,response.body().getImage());
+                sp.putString(ConstantValue.WEIXIN_NICKNAME,response.body().getName());
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                Toast.makeText(HomePageActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

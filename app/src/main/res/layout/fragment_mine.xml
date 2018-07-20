@@ -41,7 +41,7 @@
                             android:layout_width="105dp"
                             android:layout_height="105dp"
                             android:layout_centerInParent="true"
-                            android:src="@mipmap/dft_avatar" />
+                            android:src="@drawable/unlogin" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -155,7 +155,7 @@
                     android:background="@color/bg_main" />
 
                 <LinearLayout
-                    android:id="@+id/lay_sign"
+                    android:id="@+id/ll_collect"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="@color/white"

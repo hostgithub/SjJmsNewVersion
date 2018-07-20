@@ -153,45 +153,15 @@ public Set<String> getStringSet(String key){Set<String> set=null;if(!TextUtils.i
 
 public Set<String> getStringSet(String key,Set<String> defaultValue){Set<String> set=defaultValue;if(!TextUtils.isEmpty(key)){set=sharedPreferences.getStringSet(key,defaultValue);}return set;}
 
-///**
-// * 添加对象	* * @param key	* @param t
-// */public<T> void putModel(String key,T t){if(!TextUtils.isEmpty(key)&&t!=null){putString(key,JSON.toJSONString(t));// fastjson	}	}
-//
-///**    * 获取对象	* * @param key	* @param t	* @icon_back	*/public<T> T getModel(String key,Class<T> clazz){String value=null;if(!TextUtils.isEmpty(key)){value=getString(key);}icon_back TextUtils.isEmpty(value)?null:JSON.parseObject(value,clazz);// fastjson	}
-//
-///**    * 添加集合	* * @param key	* @param t	*/public<T> void putModels(String key,List<T> t){if(!TextUtils.isEmpty(key)&&t!=null&&t.size()>ZERO) {
-//    putString(key, JSON.toJSONString(t));// fastjson	}	}
-//
-///**    * 获取集合	* * @param key	* @param t	* @icon_back	*/public<T> List<T> getModels (String
-//    key, Class < T > clazz){
-//        String value = null;
-//        if (!TextUtils.isEmpty(key)) {
-//            value = getString(key);
-//        }
-//        icon_back TextUtils.isEmpty(value) ? null : JSON.parseArray(value, clazz);// fastjson	}
-//
-///**    * 查询某个key是否已经存在	* * @param key	* @icon_back	*/ public boolean contains (String key){
-//        icon_back sharedPreferences.contains(key);
-//    }
-//
-///**    * 移除某个key值已经对应的值	* * @param key	*/public void remove (String key){
-//        editor.remove(key);
-//        editor.commit();
-//    }
-//
-///**    * 清除所有数据	*/public void clear () {
-//        editor.clear();
-//        editor.commit();
-//    }
-//
-///**    * 返回所有的键值对	* * @icon_back	*/public Map<String, ?> getAll () {
-//        icon_back sharedPreferences.getAll();
-//    }
-//
-///**    * 日志输出所有键值对	*/public void selectKeyAll () {
-//        Map<String, Object> map = (Map<String, Object>) sharedPreferences.getAll();
-//        for (String key : map.keySet()) {
-//            Print.d("key= " + key + " and value= " + map.get(key));
-//        }
-//    }}
+    /**    * 移除某个key值已经对应的值	* * @param key	*/
+    public void remove (String key){
+            editor.remove(key);
+            editor.commit();
+        }
+
+    /**    * 清除所有数据	*/
+    public void clear () {
+            editor.clear();
+            editor.commit();
+        }
 }

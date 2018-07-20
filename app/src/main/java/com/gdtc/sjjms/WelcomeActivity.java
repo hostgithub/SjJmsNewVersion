@@ -88,7 +88,7 @@ public class WelcomeActivity extends BaseActivity implements EasyPermissions.Per
         Observable.timer(COUNT_DOWN_TIME, TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
             @Override
             public void call(Long aLong) {
-                startActivity(new Intent(WelcomeActivity.this, WeiXinActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, HomePageActivity.class));
                 WelcomeActivity.this.finish();
             }
         });
