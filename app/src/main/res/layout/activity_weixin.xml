@@ -29,7 +29,7 @@
         android:layout_height="50dp">
         <TextView
             android:id="@+id/btn_weixin"
-            android:drawableLeft="@drawable/yoda_icon_wechat"
+            android:drawableLeft="@drawable/wechat"
             android:drawablePadding="10px"
             android:text="微信登录"
             android:textSize="18sp"

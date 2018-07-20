@@ -94,15 +94,13 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
-        <!--微信-->
+        <!-- 微信 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -112,8 +110,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".WeiXinActivity"/>
+        <activity android:name=".WeiXinActivity" />
         <activity
             android:name=".ui.HomePageActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -129,9 +126,14 @@
         <activity
             android:name=".ui.SellerDetailActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ui.NearSellerActivity"
-            android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".ui.NearSellerActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.SystemSettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" ></activity>
     </application>
 
 </manifest>

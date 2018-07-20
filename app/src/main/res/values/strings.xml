@@ -14,6 +14,9 @@
     <string name="start_luck">系统设置</string>
     <string name="invite_reward">协议及声明</string>
     <string name="set">设置</string>
+    <string name="clear">清除缓存</string>
+    <string name="update">检查更新</string>
+    <string name="exit">退出当前账号</string>
 
     <string name="main_home">首页</string>
     <string name="main_nearby">附近</string>

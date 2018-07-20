@@ -19,6 +19,7 @@ import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.impl.ActionBarClickListener;
+import com.gdtc.sjjms.ui.SystemSettingActivity;
 import com.gdtc.sjjms.utils.MyBitmapUtils;
 import com.gdtc.sjjms.utils.MyLogUtils;
 import com.gdtc.sjjms.utils.MyToastUtils;
@@ -59,6 +60,8 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
 
     @BindView(R.id.ll_collect)
     LinearLayout ll_collect;
+    @BindView(R.id.ll_setting)
+    LinearLayout ll_setting;
 
     public static final int PHOTOZOOM = 0;
     public static final int IMAGE_COMPLETE = 2; // 结果
@@ -138,7 +141,7 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         actionBar.tvTitle.setVisibility(transAlpha > 48 ? View.VISIBLE : View.GONE);
     }
 
-    @OnClick({R.id.img_avatar,R.id.tv_name,R.id.ll_collect})
+    @OnClick({R.id.img_avatar,R.id.tv_name,R.id.ll_collect,R.id.ll_setting})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.img_avatar:
@@ -157,6 +160,10 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
                 }else{
                     Toast.makeText(getContext(),"收藏",Toast.LENGTH_LONG).show();
                 }
+                break;
+
+            case R.id.ll_setting:
+                startActivity(new Intent(getContext(), SystemSettingActivity.class));
                 break;
 //            case R.id.clear:
 //                try {

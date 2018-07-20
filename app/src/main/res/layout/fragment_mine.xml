@@ -309,7 +309,7 @@
                     android:background="@color/bg_main" />
 
                 <LinearLayout
-                    android:id="@+id/lay_luck"
+                    android:id="@+id/ll_setting"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="@color/white"

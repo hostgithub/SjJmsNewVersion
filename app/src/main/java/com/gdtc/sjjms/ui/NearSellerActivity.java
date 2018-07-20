@@ -1,6 +1,8 @@
 package com.gdtc.sjjms.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,10 +72,12 @@ public class NearSellerActivity extends BaseActivity {
 
         Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
-        seller_price.setText(nearbySellerDetailBean.getConsumption());
+        seller_price.setText(nearbySellerDetailBean.getConsumption()+"/人");
         seller_kind.setText(nearbySellerDetailBean.getCategory());
         tv_service_time.setText("营业至"+nearbySellerDetailBean.getEndHours());
         tv_address.setText(nearbySellerDetailBean.getBusinessAddress());
+
+        tv_tel_phone.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
         tv_tel_phone.setText(nearbySellerDetailBean.getBusinessPhone());
 
         seller_translate.setText(nearbySellerDetailBean.getBusinessIntroduction());
@@ -81,7 +85,7 @@ public class NearSellerActivity extends BaseActivity {
 
     }
 
-    @OnClick({ R.id.tv_back,R.id.iv_tuijian})
+    @OnClick({ R.id.tv_back,R.id.iv_tuijian,R.id.tv_tel_phone})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_back:
@@ -91,8 +95,24 @@ public class NearSellerActivity extends BaseActivity {
             case R.id.iv_tuijian://点击进入推荐菜列表
 
                 break;
+            case R.id.tv_tel_phone://点击进入推荐菜列表
+                callPhone(tv_tel_phone.getText().toString());
+                break;
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 拨打电话（跳转到拨号界面，用户手动点击拨打）
+     *
+     * @param phoneNum 电话号码
+     */
+    public void callPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
     }
 }

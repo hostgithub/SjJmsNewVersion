@@ -61,6 +61,7 @@ public class NearbyFragment extends BaseFragment {
     private AMapLocationClientOption locationOption = null;
     private String longitude;
     private String latitude;
+    private String district;
     @BindView(R.id.iv_refresh)
     ImageView iv_refresh;
     @BindView(R.id.tv_location)
@@ -126,16 +127,27 @@ public class NearbyFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 pages = 1;
-                list.clear();
-                nearbyAdapter.notifyDataSetChanged();
-                initNearbyData(1,nearId);
+                Log.e("-----------",tv_fujin.getText().toString());
+                if(!tv_fujin.getText().toString().equals("附近")){
+                    list.clear();
+                    nearbyAdapter.notifyDataSetChanged();
+                    initNearbyData(1,nearId);
+                }else {
+                    list.clear();
+                    nearbyAdapter.notifyDataSetChanged();
+                    initNearbyJWData(1,longitude,latitude,district);
+                }
                 xrecyclerview.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
                 pages++;
-                initNearbyData(pages,nearId);
+                if(!tv_fujin.getText().toString().equals("附近")){
+                    initNearbyData(pages,nearId);
+                }else {
+                    initNearbyJWData(pages,longitude,latitude,district);
+                }
                 xrecyclerview.loadMoreComplete();
             }
         });
@@ -271,6 +283,7 @@ public class NearbyFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_refresh:
+                tv_fujin.setText("附近");
                 startLocation();
                 break;
             case R.id.tv_fujin:
@@ -439,7 +452,8 @@ public class NearbyFragment extends BaseFragment {
                     tv_location.setText(location.getStreet());
                     longitude= String.valueOf(location.getLongitude());
                     latitude= String.valueOf(location.getLatitude());
-                    initNearbyJWData(1,longitude,latitude);
+                    district= location.getDistrict();
+                    initNearbyJWData(1,longitude,latitude,location.getDistrict());
                     stopLocation();
                     sb.append("定位成功" + "\n");
                     sb.append("定位类型: " + location.getLocationType() + "\n");
@@ -490,14 +504,14 @@ public class NearbyFragment extends BaseFragment {
     };
 
 
-    private void initNearbyJWData(int pages,String jingdu,String weidu) {
+    private void initNearbyJWData(int pages,String jingdu,String weidu,String district) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NearbySellerBean> call=api.getNearbySellerListData(pages,jingdu,weidu);
+        Call<NearbySellerBean> call=api.getNearbySellerListData(pages,jingdu,weidu,district);
         call.enqueue(new Callback<NearbySellerBean>() {
             @Override
             public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {

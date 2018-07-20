@@ -46,5 +46,5 @@ public interface Api {
     Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId);
 
     @GET("client/android/getSectionPage.action")//经纬度查询商家列表
-    Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude);
+    Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude,@Query("regional") String regional);
 }
