@@ -84,14 +84,14 @@
                 android:layout_height="wrap_content">
                 <TextView android:id="@+id/seller_price"
                     android:text="人均消费"
-                    android:textColor="@color/main_nav_text_color"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView android:id="@+id/seller_kind"
                     android:text="麻辣火锅"
-                    android:textColor="@color/main_nav_text_color"
+                    android:textColor="@color/main_color"
                     android:textSize="14sp"
                     android:layout_marginRight="10px"
                     android:layout_toLeftOf="@+id/seller_location"
@@ -122,12 +122,13 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:src="@drawable/icon_b1"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_service_time"
                     android:textColor="@color/gary"
-                    android:layout_marginStart="30px"
+                    android:layout_marginStart="10px"
                     android:text="09:30 - 20:00"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -145,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/icon_b2"
+                    android:src="@drawable/location_switch_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -169,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/icon_b3"
+                    android:src="@drawable/ic_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -271,7 +272,7 @@
                 <TextView
                     android:id="@+id/tv_tuijian"
                     android:text="推荐菜"
-                    android:textColor="@color/black"
+                    android:textColor="@color/main_text_color"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginTop="20px"

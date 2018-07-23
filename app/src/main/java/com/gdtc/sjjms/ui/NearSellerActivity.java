@@ -4,19 +4,31 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.Config;
+import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.R;
+import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseActivity;
+import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
+import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NearSellerActivity extends BaseActivity {
 
@@ -54,6 +66,9 @@ public class NearSellerActivity extends BaseActivity {
     TextView zhaopai_1;
     @BindView(R.id.zhaopai_2)
     TextView zhaopai_2;
+    private String type;
+
+    private SharePreferenceTools sp;
 
     private NearbySellerDetailBean.ResultsBean nearbySellerDetailBean;
 
@@ -67,9 +82,17 @@ public class NearSellerActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
+        sp=new SharePreferenceTools(getApplicationContext());
+
         Intent intent=getIntent();
         nearbySellerDetailBean= (NearbySellerDetailBean.ResultsBean) intent.getSerializableExtra(Config.NEWS);
 
+
+        if(nearbySellerDetailBean.getType().equals("0")){
+            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_off_normal);
+        }else {
+            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_on_normal);
+        }
         Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
         seller_price.setText(nearbySellerDetailBean.getConsumption()+"/人");
@@ -85,7 +108,7 @@ public class NearSellerActivity extends BaseActivity {
 
     }
 
-    @OnClick({ R.id.tv_back,R.id.iv_tuijian,R.id.tv_tel_phone})
+    @OnClick({ R.id.tv_back,R.id.iv_tuijian,R.id.tv_tel_phone,R.id.iv_coll,R.id.iv_dianping})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_back:
@@ -97,6 +120,22 @@ public class NearSellerActivity extends BaseActivity {
                 break;
             case R.id.tv_tel_phone://点击进入推荐菜列表
                 callPhone(tv_tel_phone.getText().toString());
+                break;
+            case R.id.iv_coll://
+                if(sp.getString(ConstantValue.WEIXIN_OPENID)!=null){
+                    if(nearbySellerDetailBean.getType().equals("0")){
+                        getCollect(nearbySellerDetailBean.getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID),
+                                sp.getString(ConstantValue.WEIXIN_NICKNAME),"0");
+                    } else{
+                        getCollect(nearbySellerDetailBean.getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID),
+                                sp.getString(ConstantValue.WEIXIN_NICKNAME),"1");
+                    }
+                } else {
+                    startActivity(new Intent(NearSellerActivity.this, WeiXinActivity.class));
+                }
+                break;
+            case R.id.iv_dianping://
+
                 break;
             default:
                 break;
@@ -114,5 +153,48 @@ public class NearSellerActivity extends BaseActivity {
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         startActivity(intent);
+    }
+
+
+    /**
+     * 收藏
+     * @param openId
+     */
+    private void getCollect(String businessId,String openId,String name,String type) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<Collect> call=api.getCollectData(businessId,openId,name,type);
+        call.enqueue(new Callback<Collect>() {
+            @Override
+            public void onResponse(Call<Collect> call, Response<Collect> response) {
+                Log.e("------------------",response.body().toString());
+               if(response.body().getInformation().equals("1")){
+                   runOnUiThread(new Runnable() {
+                       @Override
+                       public void run() {
+                           iv_coll.setImageResource(R.drawable.food_ic_action_favorite_on_normal);
+                           Toast.makeText(NearSellerActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+                       }
+                   });
+               }else {
+                   runOnUiThread(new Runnable() {
+                       @Override
+                       public void run() {
+                           iv_coll.setImageResource(R.drawable.food_ic_action_favorite_off_normal);
+                           Toast.makeText(NearSellerActivity.this,"取消收藏",Toast.LENGTH_SHORT).show();
+                       }
+                   });
+               }
+            }
+
+            @Override
+            public void onFailure(Call<Collect> call, Throwable t) {
+                Toast.makeText(NearSellerActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

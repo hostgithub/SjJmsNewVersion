@@ -26,10 +26,10 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/seller_price"
-            android:textColor="@color/gray_dft"
+            android:id="@+id/seller_location"
+            android:textColor="@color/main_color"
             android:textSize="13sp"
-            android:text="人均消费"
+            android:text="一条街"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,11 +45,11 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/seller_location"
-            android:textColor="@color/gary"
-            android:textSize="13sp" android:layout_marginLeft="10px"
-            android:text="中央大街" android:layout_toRightOf="@+id/seller_kind"
-            android:layout_alignParentBottom="true"
+            android:id="@+id/seller_price"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="13sp" android:layout_marginLeft="50px"
+            android:text="" android:layout_toRightOf="@+id/seller_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

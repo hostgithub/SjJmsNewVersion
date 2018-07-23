@@ -94,7 +94,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.seller_image), item.getBusinessTitleImage());
             holder.setText(R.id.seller_name, item.getBusinessName());
-            holder.setText(R.id.seller_price,  "人均消费:"+item.getConsumption());
+            holder.setText(R.id.seller_price,  item.getConsumption()+"/人");
             holder.setText(R.id.seller_kind,  item.getCategory());
             holder.setText(R.id.seller_location,  item.getBusinessAddress());
 

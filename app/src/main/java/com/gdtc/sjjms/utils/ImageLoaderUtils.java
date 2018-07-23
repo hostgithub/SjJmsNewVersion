@@ -19,7 +19,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ImageLoaderUtils {
     private static int placeholderId = R.drawable.ic_image_loading;
-    private static int errorId = R.drawable.ic_empty_picture;
+    private static int errorId = R.drawable.image_empty;
     /**
      * 加载图片
      * */

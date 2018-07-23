@@ -3,6 +3,7 @@ package com.gdtc.sjjms.service;
 import com.gdtc.sjjms.bean.AreaOneBean;
 import com.gdtc.sjjms.bean.AreaTwoBean;
 import com.gdtc.sjjms.bean.Banners;
+import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
@@ -38,12 +39,17 @@ public interface Api {
     Call<AreaTwoBean> getAreaTwoBeanData(@Query("regionalId") String regionalId);
 
 
-    @GET("/client/android/getBusinessInfoPage.action")//商家列表
+    @GET("client/android/getBusinessInfoPage.action")//商家列表
     Call<NearbySellerBean> getNearbySellerData(@Query("paging") int paging,@Query("businessRegional") String businessRegional);
 
 
-    @GET("/client/android/getBusinessInfoById.action")//商家详情
-    Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId);
+    @GET("client/android/getBusinessInfoById.action")//商家详情
+    Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId,@Query("openId") String openId);
+
+
+    @GET("client/android/insertCollection.action")//收藏与取消收藏
+    Call<Collect> getCollectData(@Query("businessId") String businessId, @Query("openId") String openId,
+                                 @Query("name") String name, @Query("type") String type);
 
     @GET("client/android/getSectionPage.action")//经纬度查询商家列表
     Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude,@Query("regional") String regional);

@@ -66,6 +66,9 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
     public static final int PHOTOZOOM = 0;
     public static final int IMAGE_COMPLETE = 2; // 结果
 
+
+    public static final int WEIXIN_RESULT_CODE = 5; // 结果
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_mine;
@@ -83,7 +86,7 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         init();
 
         if(sp.getString(ConstantValue.WEIXIN_NICKNAME)==null){
-            tv_name.setText("用于登录");
+            tv_name.setText("用户登录");
             img_avatar.setImageResource(R.drawable.unlogin);
         }else {
             tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
@@ -146,9 +149,10 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         switch (view.getId()){
             case R.id.img_avatar:
                 if(sp.getString(ConstantValue.WEIXIN_OPENID)==null){
-                    startActivity(new Intent(getContext(), WeiXinActivity.class));
+                    Intent weixin=new Intent(getContext(), WeiXinActivity.class);
+                    startActivityForResult(weixin,WEIXIN_RESULT_CODE);
                 }else {
-                    headIconDialog();
+                    //headIconDialog();
                 }
                 break;
             case R.id.tv_name:
@@ -156,7 +160,8 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
                 break;
             case R.id.ll_collect:
                 if(sp.getString(ConstantValue.WEIXIN_OPENID)==null){
-                    startActivity(new Intent(getContext(), WeiXinActivity.class));
+                    Intent weixin=new Intent(getContext(), WeiXinActivity.class);
+                    startActivityForResult(weixin,WEIXIN_RESULT_CODE);
                 }else{
                     Toast.makeText(getContext(),"收藏",Toast.LENGTH_LONG).show();
                 }
@@ -250,7 +255,23 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
                 }
 
                 break;
+            case WEIXIN_RESULT_CODE:// 微信登录成功后刷新该界面
+                if(sp.getString(ConstantValue.WEIXIN_NICKNAME)==null){
+                    tv_name.setText("用户登录");
+                    img_avatar.setImageResource(R.drawable.unlogin);
+                }else {
+                    tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
+                    Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+                }
+                break;
+            default:
+                break;
         }
     }
 
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
 }

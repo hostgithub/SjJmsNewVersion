@@ -73,6 +73,7 @@ public class NearbySellerDetailBean implements Serializable {
         private String BusinessNotice;
         private String BusinessActivity;
         private String Category;
+        private String type;
 
         public String getBusinessInfoId() {
             return BusinessInfoId;
@@ -216,6 +217,14 @@ public class NearbySellerDetailBean implements Serializable {
 
         public void setCategory(String Category) {
             this.Category = Category;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 }

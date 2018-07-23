@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gdtc.sjjms.base.BaseActivity;
-import com.gdtc.sjjms.ui.HomePageActivity;
 import com.gdtc.sjjms.utils.HttpCallBackListener;
 import com.gdtc.sjjms.utils.HttpUtil;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
@@ -187,8 +186,8 @@ public class WeiXinActivity extends BaseActivity {
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_HEADURL,headimgurl);
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_NICKNAME,nickName);
 
-                    Intent intent1 = new Intent(WeiXinActivity.this, HomePageActivity.class);
-                    startActivity(intent1);
+//                    Intent intent1 = new Intent(WeiXinActivity.this, HomePageActivity.class);
+//                    startActivity(intent1);
                     finish();
 
                 } catch (JSONException e) {

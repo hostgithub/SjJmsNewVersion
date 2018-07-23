@@ -16,6 +16,8 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
 import com.gdtc.sjjms.Config;
+import com.gdtc.sjjms.ConstantValue;
+import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.adapter.NearbyAdapter;
 import com.gdtc.sjjms.base.BaseFragment;
@@ -27,6 +29,7 @@ import com.gdtc.sjjms.event.EventUtil;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.ui.NearSellerActivity;
 import com.gdtc.sjjms.utils.DoubleListPopViewUtil;
+import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.gdtc.sjjms.utils.Utils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -56,6 +59,8 @@ public class NearbyFragment extends BaseFragment {
     private NearbyAdapter nearbyAdapter;
     private int pages=1;
     private String nearId;
+
+    private SharePreferenceTools sp;
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
@@ -91,6 +96,7 @@ public class NearbyFragment extends BaseFragment {
     public void initViews(View view, Bundle savedInstanceState) {
         mUnbinder = ButterKnife.bind(this, view);
         //初始化定位
+        sp = new SharePreferenceTools(MyApplication.getContext());
         initLocation();
         startLocation();
         rootList = new ArrayList<>();
@@ -114,7 +120,7 @@ public class NearbyFragment extends BaseFragment {
         nearbyAdapter.setOnItemClickLitener(new NearbyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                getNearbyData(list.get(position).getBusinessInfoId());
+                getNearbyData(list.get(position).getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID));
 //                Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(getContext(), NearSellerActivity.class));
             }
@@ -412,14 +418,14 @@ public class NearbyFragment extends BaseFragment {
     }
 
 
-    private void getNearbyData(String id) {
+    private void getNearbyData(String id,String openId) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id);
+        Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id,openId);
         call.enqueue(new Callback<NearbySellerDetailBean>() {
             @Override
             public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
