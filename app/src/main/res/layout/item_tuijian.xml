@@ -9,7 +9,7 @@
         android:src="@drawable/image_empty"
         android:scaleType="centerCrop"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="80dp" />
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="wrap_content"
@@ -27,32 +27,26 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/seller_location"
-            android:textColor="@color/main_color"
+            android:id="@+id/seller_price"
+            android:textColor="@color/black"
             android:textSize="13sp"
-            android:text="一条街"
+            android:text="￥45"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
-        <TextView
-            android:id="@+id/seller_kind"
-            android:textColor="@color/gary"
-            android:textSize="13sp"
-            android:text="西餐"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/seller_price"
-            android:layout_centerVertical="true"
+        <ImageView
+            android:id="@+id/seller_new"
             android:textColor="@color/black"
-            android:textSize="13sp" android:layout_marginLeft="50px"
-            android:text="" android:layout_toRightOf="@+id/seller_location"
+            android:background="@drawable/deal_list_item_status_new"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/seller_name"
+            android:layout_marginRight="50px"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

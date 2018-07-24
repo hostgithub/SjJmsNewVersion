@@ -7,6 +7,7 @@ import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
+import com.gdtc.sjjms.bean.TuijianList;
 import com.gdtc.sjjms.bean.UserInfo;
 
 import retrofit2.Call;
@@ -51,6 +52,9 @@ public interface Api {
 
     @GET("client/android/getBusinessInfoById.action")//商家详情
     Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId,@Query("openId") String openId);
+
+    @GET("client/android/getBusinessFoodInfo.action")//推荐菜列表
+    Call<TuijianList> getTuijianData(@Query("businessId") String businessId, @Query("paging") int paging);
 
 
     @GET("client/android/insertCollection.action")//收藏与取消收藏

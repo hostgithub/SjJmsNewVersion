@@ -21,6 +21,7 @@ import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,8 +41,8 @@ public class NearSellerActivity extends BaseActivity {
     ImageView iv_tuijian;
     @BindView(R.id.iv_coll)//收藏
     ImageView iv_coll;
-    @BindView(R.id.iv_dianping)//点评
-    ImageView iv_dianping;
+    @BindView(R.id.al_comment)//点评
+     AutoRelativeLayout al_comment;
 
     @BindView(R.id.seller_name)
     TextView seller_name;
@@ -66,10 +67,11 @@ public class NearSellerActivity extends BaseActivity {
     TextView zhaopai_1;
     @BindView(R.id.zhaopai_2)
     TextView zhaopai_2;
+    @BindView(R.id.al_tuijian)
+    AutoRelativeLayout al_tuijian;
+
     private String type_star;
-
     private SharePreferenceTools sp;
-
     private NearbySellerDetailBean.ResultsBean nearbySellerDetailBean;
 
 
@@ -89,11 +91,12 @@ public class NearSellerActivity extends BaseActivity {
 
 
         if(nearbySellerDetailBean.getType().equals("0")){
-            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_off_normal);
+            iv_coll.setImageResource(R.mipmap.basecs_uncollect);
         }else {
-            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_on_normal);
+            iv_coll.setImageResource(R.mipmap.basecs_collected);
         }
         Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
+        Log.e("---------------",nearbySellerDetailBean.getBusinessTitleImage());
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
         seller_price.setText(nearbySellerDetailBean.getConsumption()+"/人");
         seller_kind.setText(nearbySellerDetailBean.getCategory());
@@ -110,15 +113,17 @@ public class NearSellerActivity extends BaseActivity {
 
     }
 
-    @OnClick({ R.id.tv_back,R.id.iv_tuijian,R.id.tv_tel_phone,R.id.iv_coll,R.id.iv_dianping})
+    @OnClick({ R.id.tv_back,R.id.al_tuijian,R.id.tv_tel_phone,R.id.iv_coll,R.id.al_comment})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_back:
                 finish();
                 NearSellerActivity.this.overridePendingTransition(0, R.anim.activity_close);
                 break;
-            case R.id.iv_tuijian://点击进入推荐菜列表
-
+            case R.id.al_tuijian://点击进入推荐菜列表
+                Intent intent=new Intent(NearSellerActivity.this,TuijianListActivity.class);
+                intent.putExtra(Config.NEWS,nearbySellerDetailBean.getBusinessInfoId());
+                startActivity(intent);
                 break;
             case R.id.tv_tel_phone://点击进入推荐菜列表
                 callPhone(tv_tel_phone.getText().toString());
@@ -136,7 +141,7 @@ public class NearSellerActivity extends BaseActivity {
                     startActivity(new Intent(NearSellerActivity.this, WeiXinActivity.class));
                 }
                 break;
-            case R.id.iv_dianping://
+            case R.id.al_comment://
 
                 break;
             default:
@@ -178,7 +183,7 @@ public class NearSellerActivity extends BaseActivity {
                    runOnUiThread(new Runnable() {
                        @Override
                        public void run() {
-                           iv_coll.setImageResource(R.drawable.food_ic_action_favorite_on_normal);
+                           iv_coll.setImageResource(R.mipmap.basecs_collected);
                            type_star="1";
                            Toast.makeText(NearSellerActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
                        }
@@ -187,7 +192,7 @@ public class NearSellerActivity extends BaseActivity {
                    runOnUiThread(new Runnable() {
                        @Override
                        public void run() {
-                           iv_coll.setImageResource(R.drawable.food_ic_action_favorite_off_normal);
+                           iv_coll.setImageResource(R.mipmap.basecs_uncollect);
                            type_star="0";
                            Toast.makeText(NearSellerActivity.this,"取消收藏",Toast.LENGTH_SHORT).show();
                        }

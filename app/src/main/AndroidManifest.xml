@@ -135,16 +135,27 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".ui.MineCollectActivity"
+        <activity
+            android:name=".ui.MineCollectActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" ></activity>
-        <activity android:name=".ui.MineZujiActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ui.MineZujiActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" ></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ui.TuijianListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".ui.PicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
