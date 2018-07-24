@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.ConstantValue;
@@ -19,6 +18,8 @@ import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.impl.ActionBarClickListener;
+import com.gdtc.sjjms.ui.MineCollectActivity;
+import com.gdtc.sjjms.ui.MineZujiActivity;
 import com.gdtc.sjjms.ui.SystemSettingActivity;
 import com.gdtc.sjjms.utils.MyBitmapUtils;
 import com.gdtc.sjjms.utils.MyLogUtils;
@@ -60,6 +61,8 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
 
     @BindView(R.id.ll_collect)
     LinearLayout ll_collect;
+    @BindView(R.id.ll_zuji)
+    LinearLayout ll_zuji;
     @BindView(R.id.ll_setting)
     LinearLayout ll_setting;
 
@@ -144,7 +147,7 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         actionBar.tvTitle.setVisibility(transAlpha > 48 ? View.VISIBLE : View.GONE);
     }
 
-    @OnClick({R.id.img_avatar,R.id.tv_name,R.id.ll_collect,R.id.ll_setting})
+    @OnClick({R.id.img_avatar,R.id.tv_name,R.id.ll_collect,R.id.ll_setting,R.id.ll_zuji})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.img_avatar:
@@ -163,10 +166,17 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
                     Intent weixin=new Intent(getContext(), WeiXinActivity.class);
                     startActivityForResult(weixin,WEIXIN_RESULT_CODE);
                 }else{
-                    Toast.makeText(getContext(),"收藏",Toast.LENGTH_LONG).show();
+                   startActivity(new Intent(getContext(), MineCollectActivity.class));
                 }
                 break;
-
+            case R.id.ll_zuji:
+                if(sp.getString(ConstantValue.WEIXIN_OPENID)==null){
+                    Intent weixin=new Intent(getContext(), WeiXinActivity.class);
+                    startActivityForResult(weixin,WEIXIN_RESULT_CODE);
+                }else{
+                    startActivity(new Intent(getContext(), MineZujiActivity.class));
+                }
+                break;
             case R.id.ll_setting:
                 startActivity(new Intent(getContext(), SystemSettingActivity.class));
                 break;

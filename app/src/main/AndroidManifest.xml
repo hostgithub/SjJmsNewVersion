@@ -124,12 +124,23 @@
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".ui.SellerDetailActivity"
+            android:name=".ui.SellerTestActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.NearSellerActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.SystemSettingActivity"
+        <activity
+            android:name=".ui.SystemSettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".ui.MineCollectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" ></activity>
+        <activity android:name=".ui.MineZujiActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.Light.NoActionBar"

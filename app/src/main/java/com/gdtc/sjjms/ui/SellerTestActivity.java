@@ -12,7 +12,7 @@ import com.gdtc.sjjms.widget.TranslucentScrollView;
 
 import butterknife.BindView;
 
-public class SellerDetailActivity extends BaseActivity implements ActionBarClickListener, TranslucentScrollView.TranslucentChangedListener{
+public class SellerTestActivity extends BaseActivity implements ActionBarClickListener, TranslucentScrollView.TranslucentChangedListener{
 
 
     @BindView(R.id.custom_scrollview)

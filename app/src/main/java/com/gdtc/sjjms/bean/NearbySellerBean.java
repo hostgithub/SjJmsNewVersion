@@ -46,6 +46,7 @@ public class NearbySellerBean implements Serializable {
          * BusinessService : 商家所提供的服务
          * StartHours : 2018-07-17 00:00:00
          * EndHours : 2018-07-17 00:00:00
+         * Regional : 区
          * BusinessAddress : 1-222
          * BusinessPhone : 13988776655
          * BusinessPeople : 比某某
@@ -66,6 +67,7 @@ public class NearbySellerBean implements Serializable {
         private String BusinessService;
         private String StartHours;
         private String EndHours;
+        private String Regional;
         private String BusinessAddress;
         private String BusinessPhone;
         private String BusinessPeople;
@@ -160,6 +162,14 @@ public class NearbySellerBean implements Serializable {
 
         public void setEndHours(String EndHours) {
             this.EndHours = EndHours;
+        }
+
+        public String getRegional() {
+            return Regional;
+        }
+
+        public void setRegional(String regional) {
+            Regional = regional;
         }
 
         public String getBusinessAddress() {

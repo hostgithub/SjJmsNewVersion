@@ -96,7 +96,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.setText(R.id.seller_name, item.getBusinessName());
             holder.setText(R.id.seller_price,  item.getConsumption()+"/人");
             holder.setText(R.id.seller_kind,  item.getCategory());
-            holder.setText(R.id.seller_location,  item.getBusinessAddress());
+            holder.setText(R.id.seller_location,  item.getRegional());
 
 //            holder.setText(R.id.author, item.getAuthor());
 //            holder.setText(R.id.seeNum, item.getWatch());

@@ -202,7 +202,7 @@
                     android:layout_marginLeft="16dp" />
 
                 <LinearLayout
-                    android:id="@+id/lay_address"
+                    android:id="@+id/ll_zuji"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="@color/white"

@@ -66,7 +66,7 @@ public class NearSellerActivity extends BaseActivity {
     TextView zhaopai_1;
     @BindView(R.id.zhaopai_2)
     TextView zhaopai_2;
-    private String type;
+    private String type_star;
 
     private SharePreferenceTools sp;
 
@@ -106,6 +106,8 @@ public class NearSellerActivity extends BaseActivity {
         seller_translate.setText(nearbySellerDetailBean.getBusinessIntroduction());
         seller_stroy.setText(nearbySellerDetailBean.getBusinessStory());
 
+        type_star=nearbySellerDetailBean.getType();
+
     }
 
     @OnClick({ R.id.tv_back,R.id.iv_tuijian,R.id.tv_tel_phone,R.id.iv_coll,R.id.iv_dianping})
@@ -123,7 +125,7 @@ public class NearSellerActivity extends BaseActivity {
                 break;
             case R.id.iv_coll://
                 if(sp.getString(ConstantValue.WEIXIN_OPENID)!=null){
-                    if(nearbySellerDetailBean.getType().equals("0")){
+                    if(type_star.equals("0")){
                         getCollect(nearbySellerDetailBean.getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID),
                                 sp.getString(ConstantValue.WEIXIN_NICKNAME),"0");
                     } else{
@@ -160,7 +162,7 @@ public class NearSellerActivity extends BaseActivity {
      * 收藏
      * @param openId
      */
-    private void getCollect(String businessId,String openId,String name,String type) {
+    private void getCollect(String businessId, String openId, String name, final String type) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
@@ -177,6 +179,7 @@ public class NearSellerActivity extends BaseActivity {
                        @Override
                        public void run() {
                            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_on_normal);
+                           type_star="1";
                            Toast.makeText(NearSellerActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
                        }
                    });
@@ -185,6 +188,7 @@ public class NearSellerActivity extends BaseActivity {
                        @Override
                        public void run() {
                            iv_coll.setImageResource(R.drawable.food_ic_action_favorite_off_normal);
+                           type_star="0";
                            Toast.makeText(NearSellerActivity.this,"取消收藏",Toast.LENGTH_SHORT).show();
                        }
                    });

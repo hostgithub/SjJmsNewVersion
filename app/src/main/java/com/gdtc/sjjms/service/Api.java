@@ -42,6 +42,12 @@ public interface Api {
     @GET("client/android/getBusinessInfoPage.action")//商家列表
     Call<NearbySellerBean> getNearbySellerData(@Query("paging") int paging,@Query("businessRegional") String businessRegional);
 
+    @GET("client/android/getCollectionList.action")//收藏商家列表
+    Call<NearbySellerBean> getMineCollectData(@Query("openId") String openId,@Query("paging") int paging);
+
+    @GET("client/android/getMarkList.action")//我的足迹列表
+    Call<NearbySellerBean> getMineZujiData(@Query("openId") String openId,@Query("paging") int paging);
+
 
     @GET("client/android/getBusinessInfoById.action")//商家详情
     Call<NearbySellerDetailBean> getNearbySellerDetailData( @Query("BusinessInfoId") String BusinessInfoId,@Query("openId") String openId);
