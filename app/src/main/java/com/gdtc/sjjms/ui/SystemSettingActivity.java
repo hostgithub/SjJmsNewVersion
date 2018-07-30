@@ -9,8 +9,11 @@ import android.widget.Toast;
 import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseActivity;
+import com.gdtc.sjjms.event.MessageEvent;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,6 +66,7 @@ public class SystemSettingActivity extends BaseActivity {
                 sp.remove(ConstantValue.WEIXIN_OPENID);
                 sp.remove(ConstantValue.WEIXIN_HEADURL);
                 sp.remove(ConstantValue.WEIXIN_NICKNAME);
+                EventBus.getDefault().post(new MessageEvent("退出"));
                 finish();
                 break;
             default:

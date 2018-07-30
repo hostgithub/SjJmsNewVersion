@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="20px"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <com.gdtc.sjjms.widget.NiceImageView
+        android:id="@+id/user_image"
+        android:src="@drawable/image_empty"
+        android:scaleType="centerCrop"
+        app:is_circle="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20px">
+
+        <TextView
+            android:id="@+id/seller_name"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginTop="6px"
+            android:text="哈根达斯"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/seller_price"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:text="￥45"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

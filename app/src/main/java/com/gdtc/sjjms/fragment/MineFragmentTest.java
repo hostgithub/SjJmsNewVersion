@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +17,7 @@ import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseFragment;
+import com.gdtc.sjjms.event.MessageEvent;
 import com.gdtc.sjjms.impl.ActionBarClickListener;
 import com.gdtc.sjjms.ui.MineCollectActivity;
 import com.gdtc.sjjms.ui.MineZujiActivity;
@@ -26,8 +27,12 @@ import com.gdtc.sjjms.utils.MyLogUtils;
 import com.gdtc.sjjms.utils.MyToastUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.gdtc.sjjms.widget.GlideCircleTransform;
+import com.gdtc.sjjms.widget.NiceImageView;
 import com.gdtc.sjjms.widget.TranslucentActionBar;
 import com.gdtc.sjjms.widget.TranslucentScrollView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 
@@ -55,7 +60,7 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
      View zoomView;
 
     @BindView(R.id.img_avatar)
-    ImageView img_avatar;
+    NiceImageView img_avatar;
     @BindView(R.id.tv_name)
     TextView tv_name;
 
@@ -279,6 +284,32 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(MessageEvent event){
+        Log.e("onEventBackground收到了消息",event.toString());
+        if(sp.getString(ConstantValue.WEIXIN_NICKNAME)==null){
+            tv_name.setText("用户登录");
+            img_avatar.setImageResource(R.drawable.unlogin);
+        }else {
+            tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
+            Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+        }
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

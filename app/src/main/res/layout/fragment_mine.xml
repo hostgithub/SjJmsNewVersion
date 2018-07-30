@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.gdtc.sjjms.widget.TranslucentScrollView
         android:id="@+id/pullzoom_scrollview"
@@ -36,10 +37,11 @@
                         android:layout_centerInParent="true"
                         android:background="@mipmap/bg_avatar">
 
-                        <ImageView
+                        <com.gdtc.sjjms.widget.NiceImageView
                             android:id="@+id/img_avatar"
                             android:layout_width="105dp"
                             android:layout_height="105dp"
+                            app:is_circle="true"
                             android:layout_centerInParent="true"
                             android:src="@drawable/unlogin" />
                     </RelativeLayout>

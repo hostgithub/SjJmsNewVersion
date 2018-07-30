@@ -23,6 +23,7 @@
     <string name="main_order">热门</string>
     <string name="main_mine">我的</string>
     <string name="search_goods">输入商品或店铺</string>
+    <string name="comment">快来写下你的评论吧~</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

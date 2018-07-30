@@ -3,6 +3,7 @@ package com.gdtc.sjjms;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import com.gdtc.sjjms.utils.CrashHandler;
 import com.gdtc.sjjms.utils.LogUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -39,6 +40,7 @@ public class MyApplication extends MultiDexApplication
         AutoLayoutConifg.getInstance().useDeviceSize();
         //Fresco.initialize(this);
 
+        CrashHandler.getInstance().initCrashHandler(this);
         //CrashReport.initCrashReport(getApplicationContext());
         //检查内存泄漏
         refWatcher = LeakCanary.install(this);

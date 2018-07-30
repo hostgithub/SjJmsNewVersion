@@ -125,13 +125,12 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:src="@drawable/icon_b1"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_service_time"
                     android:textColor="@color/gary"
-                    android:layout_marginStart="10px"
+                    android:layout_marginStart="30px"
                     android:text="09:30 - 20:00"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -296,6 +295,37 @@
                     android:background="@drawable/ic_right_gray" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
+
+            <View
+                android:layout_marginTop="20px"
+                android:layout_width="match_parent"
+                android:background="@color/WhiteSmoke"
+                android:layout_height="1dp"/>
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30px"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10px">
+                <TextView
+                    android:text="评论"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xrecyclerview"
+                android:scrollbars="none"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.jcodecraeer.xrecyclerview.XRecyclerView>
 
         </com.zhy.autolayout.AutoLinearLayout>
     </com.gdtc.sjjms.widget.TranslucentScrollView>

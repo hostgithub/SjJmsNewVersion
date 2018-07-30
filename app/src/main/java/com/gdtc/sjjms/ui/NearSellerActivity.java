@@ -1,15 +1,25 @@
 package com.gdtc.sjjms.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.EmptyUtils;
 import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.ConstantValue;
@@ -17,6 +27,7 @@ import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.WeiXinActivity;
 import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.Collect;
+import com.gdtc.sjjms.bean.Comment;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
@@ -43,6 +54,7 @@ public class NearSellerActivity extends BaseActivity {
     ImageView iv_coll;
     @BindView(R.id.al_comment)//点评
      AutoRelativeLayout al_comment;
+    private PopupWindow mPopWindow;
 
     @BindView(R.id.seller_name)
     TextView seller_name;
@@ -73,6 +85,7 @@ public class NearSellerActivity extends BaseActivity {
     private String type_star;
     private SharePreferenceTools sp;
     private NearbySellerDetailBean.ResultsBean nearbySellerDetailBean;
+
 
 
 
@@ -142,7 +155,12 @@ public class NearSellerActivity extends BaseActivity {
                 }
                 break;
             case R.id.al_comment://
-
+                if(sp.getString(ConstantValue.WEIXIN_OPENID)!=null){
+                    showPopupWindow();
+                } else {
+                    startActivity(new Intent(NearSellerActivity.this, WeiXinActivity.class));
+                }
+//                showPopupWindow();
                 break;
             default:
                 break;
@@ -205,5 +223,103 @@ public class NearSellerActivity extends BaseActivity {
                 Toast.makeText(NearSellerActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void showPopupWindow() {
+        //设置contentView
+        View contentView = LayoutInflater.from(NearSellerActivity.this).inflate(R.layout.popup_comment, null);
+//        mPopWindow = new PopupWindow(contentView,
+//                ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+        mPopWindow = new PopupWindow(contentView,
+                ActionBar.LayoutParams.MATCH_PARENT, 100, true);
+        mPopWindow.setContentView(contentView);
+        //防止PopupWindow被软件盘挡住（可能只要下面一句，可能需要这两句）
+        mPopWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mPopWindow.setBackgroundDrawable(new BitmapDrawable());
+        backgroundAlpha(0.7f);
+        //添加pop窗口关闭事件
+        mPopWindow.setOnDismissListener(new poponDismissListener());
+        //设置软键盘弹出
+        InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(1000, InputMethodManager.HIDE_NOT_ALWAYS);//这里给它设置了弹出的时间
+        //设置各个控件的点击响应
+        final EditText editText = contentView.findViewById(R.id.pop_editText);
+        TextView btn = contentView.findViewById(R.id.pop_btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String inputString = editText.getText().toString();
+                if(!EmptyUtils.isEmpty(editText.getText().toString().trim())){
+                    getComment(nearbySellerDetailBean.getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID),
+                            sp.getString(ConstantValue.WEIXIN_NICKNAME),editText.getText().toString().trim());
+//                    getComment(nearbySellerDetailBean.getBusinessInfoId(),"222222222",
+//                            "22222555555",editText.getText().toString().trim());
+                }else {
+                    Toast.makeText(NearSellerActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //是否具有获取焦点的能力
+        mPopWindow.setFocusable(true);
+        //显示PopupWindow
+        //View rootview = LayoutInflater.from(NearSellerActivity.this).inflate(R.layout.activity_near_seller, null);
+        mPopWindow.showAtLocation(al_comment, Gravity.BOTTOM, 0, 0);
+    }
+
+
+
+    /**
+     * 收藏
+     * @param openId
+     */
+    private void getComment(String businessId, String openId, String name, String content) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<Comment> call=api.getCommentData(businessId,openId,name,content);
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                if(response.body().getSuccess().equals("true")){
+                    mPopWindow.dismiss();//让PopupWindow消失
+                    Toast.makeText(NearSellerActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(NearSellerActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     * @author cg
+     *
+     */
+    class poponDismissListener implements PopupWindow.OnDismissListener{
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 }

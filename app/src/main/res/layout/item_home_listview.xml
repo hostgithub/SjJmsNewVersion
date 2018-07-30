@@ -53,6 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:text="4.5"
+            android:visibility="gone"
             android:layout_toRightOf="@+id/ll_star"
             android:textColor="@color/app_text_color2"
             android:textSize="@dimen/font_size_middle" />
@@ -62,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+
             android:text="暂无人均价格"
             android:layout_toRightOf="@+id/tv_grade"
             android:textColor="@color/black"
@@ -89,6 +90,7 @@
 
     <TextView
         android:id="@+id/tv_distance"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_location"

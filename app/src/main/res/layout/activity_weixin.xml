@@ -40,6 +40,17 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
 
+    <TextView
+        android:text="点击微信登录按钮直接登录"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="20px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/wechat_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:background="@drawable/signin_bg"

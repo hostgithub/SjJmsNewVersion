@@ -524,8 +524,10 @@ public class NearbyFragment extends BaseFragment {
 
                 if(response.body().getResults()==null){
                     Toast.makeText(getContext(),"暂无数据",Toast.LENGTH_SHORT).show();
+                }if(response.body().getResults().size()==0){
+                    Toast.makeText(getContext(),"暂无更多数据",Toast.LENGTH_SHORT).show();
                 }else{
-                    list.clear();
+                    //list.clear();
                     list.addAll(response.body().getResults());
 
                     Log.e("xxxxxx",response.body().toString());

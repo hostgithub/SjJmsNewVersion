@@ -4,6 +4,7 @@ import com.gdtc.sjjms.bean.AreaOneBean;
 import com.gdtc.sjjms.bean.AreaTwoBean;
 import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.Collect;
+import com.gdtc.sjjms.bean.Comment;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
@@ -55,6 +56,11 @@ public interface Api {
 
     @GET("client/android/getBusinessFoodInfo.action")//推荐菜列表
     Call<TuijianList> getTuijianData(@Query("businessId") String businessId, @Query("paging") int paging);
+
+
+    @GET("client/android/insertEvaluate.action")//评论
+    Call<Comment> getCommentData(@Query("businessId") String businessId, @Query("openId") String openId,
+                                 @Query("name") String name, @Query("evaluate") String evaluate);
 
 
     @GET("client/android/insertCollection.action")//收藏与取消收藏
