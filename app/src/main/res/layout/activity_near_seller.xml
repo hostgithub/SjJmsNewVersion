@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/icon_b1"
+                    android:src="@drawable/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -326,6 +326,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+            <TextView
+                android:id="@+id/tip"
+                android:text="暂无评论"
+                android:textColor="@color/gary"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/font_size_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </com.zhy.autolayout.AutoLinearLayout>
     </com.gdtc.sjjms.widget.TranslucentScrollView>

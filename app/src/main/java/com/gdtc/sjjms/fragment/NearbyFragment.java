@@ -196,7 +196,6 @@ public class NearbyFragment extends BaseFragment {
      */
     private void showAreaPopBtn() {
 
-
         areaPopupWindow = new DoubleListPopViewUtil(getContext(), tv_fujin, rootList) {
             @Override
             public void onRootListviewOnClick(View v, int position) {
@@ -207,6 +206,8 @@ public class NearbyFragment extends BaseFragment {
             @Override
             public void onSubListviewOnClick(View v, int position) {
                 //tv_fujin.setText(subItemList.get(position).getRegionalStreet());
+                list.clear();
+                nearbyAdapter.notifyDataSetChanged();
                 areaPopupWindow.dismiss();
             }
         };
@@ -402,9 +403,8 @@ public class NearbyFragment extends BaseFragment {
                if(response.body().getResults()==null){
                    Toast.makeText(getContext(),"暂无数据",Toast.LENGTH_SHORT).show();
                }else{
-                   list.clear();
+                   //list.clear();
                    list.addAll(response.body().getResults());
-
                    Log.e("xxxxxx",response.body().toString());
                    nearbyAdapter.notifyDataSetChanged();
                }
@@ -429,7 +429,7 @@ public class NearbyFragment extends BaseFragment {
         call.enqueue(new Callback<NearbySellerDetailBean>() {
             @Override
             public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
-                if(response!=null){
+                if(response!=null&&response.body().getResults().size()!=0){
                     NearbySellerDetailBean.ResultsBean nearbySellerDetailBean= response.body().getResults().get(0);
                     Intent intent=new Intent(getContext(), NearSellerActivity.class);
                     intent.putExtra(Config.NEWS,nearbySellerDetailBean);
@@ -527,10 +527,10 @@ public class NearbyFragment extends BaseFragment {
                 }if(response.body().getResults().size()==0){
                     Toast.makeText(getContext(),"暂无更多数据",Toast.LENGTH_SHORT).show();
                 }else{
-                    //list.clear();
+                    list.clear();
                     list.addAll(response.body().getResults());
 
-                    Log.e("xxxxxx",response.body().toString());
+                    Log.e("---getBusinessInfoId--",response.body().getResults().get(0).getBusinessInfoId());
                     nearbyAdapter.notifyDataSetChanged();
                 }
             }

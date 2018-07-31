@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,14 +26,19 @@ import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.WeiXinActivity;
+import com.gdtc.sjjms.adapter.CommentListAdapter;
 import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.Comment;
+import com.gdtc.sjjms.bean.CommentList;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -87,6 +93,17 @@ public class NearSellerActivity extends BaseActivity {
     private NearbySellerDetailBean.ResultsBean nearbySellerDetailBean;
 
 
+    @BindView(R.id.tip)
+    TextView tip;
+    @BindView(R.id.xrecyclerview)
+    XRecyclerView xrecyclerview;
+
+    private LinearLayoutManager linearLayoutManager;
+    private ArrayList<CommentList.ResultsBean> list;
+    private CommentListAdapter nearbyAdapter;
+    private int pages=1;
+
+
 
 
     @Override
@@ -109,10 +126,11 @@ public class NearSellerActivity extends BaseActivity {
             iv_coll.setImageResource(R.mipmap.basecs_collected);
         }
         Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
-        Log.e("---------------",nearbySellerDetailBean.getBusinessTitleImage());
+        Log.e("--getBusinessTitleImage",nearbySellerDetailBean.getBusinessTitleImage());
+        Log.e("----getBusinessInfoId--",nearbySellerDetailBean.getBusinessInfoId());
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
         seller_price.setText(nearbySellerDetailBean.getConsumption()+"/人");
-        seller_kind.setText(nearbySellerDetailBean.getCategory());
+        seller_kind.setText(nearbySellerDetailBean.getCategory().substring(0,nearbySellerDetailBean.getCategory().length() - 1));
         tv_service_time.setText("营业至"+nearbySellerDetailBean.getEndHours());
         tv_address.setText(nearbySellerDetailBean.getBusinessAddress());
 
@@ -124,6 +142,72 @@ public class NearSellerActivity extends BaseActivity {
 
         type_star=nearbySellerDetailBean.getType();
 
+
+
+        list=new ArrayList();
+        initCommentListData(1,nearbySellerDetailBean.getBusinessInfoId());
+        linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        xrecyclerview.setLayoutManager(linearLayoutManager);
+        xrecyclerview.setHasFixedSize(true);
+        xrecyclerview.setNestedScrollingEnabled(false);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+
+
+        nearbyAdapter=new CommentListAdapter(this,list);
+
+        xrecyclerview.setAdapter(nearbyAdapter);
+
+        xrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                pages = 1;
+                list.clear();
+                nearbyAdapter.notifyDataSetChanged();
+                initCommentListData(1,nearbySellerDetailBean.getBusinessInfoId());
+                xrecyclerview.refreshComplete();
+            }
+
+            @Override
+            public void onLoadMore() {
+                pages++;
+                initCommentListData(pages,nearbySellerDetailBean.getBusinessInfoId());
+                xrecyclerview.loadMoreComplete();
+            }
+        });
+
+    }
+
+
+
+    private void initCommentListData(int pages,String id) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<CommentList> call=api.getCommentListData(pages,id);
+        call.enqueue(new Callback<CommentList>() {
+            @Override
+            public void onResponse(Call<CommentList> call, Response<CommentList> response) {
+
+                if(response.body().getResults().size()==0){
+                    tip.setVisibility(View.VISIBLE);
+                }else{
+                    tip.setVisibility(View.GONE);
+                    list.clear();
+                    list.addAll(response.body().getResults());
+                    Log.e("xxxxxx",response.body().toString());
+                    nearbyAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentList> call, Throwable t) {
+                Toast.makeText(NearSellerActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @OnClick({ R.id.tv_back,R.id.al_tuijian,R.id.tv_tel_phone,R.id.iv_coll,R.id.al_comment})
@@ -287,6 +371,7 @@ public class NearSellerActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 if(response.body().getSuccess().equals("true")){
+                    initCommentListData(1,nearbySellerDetailBean.getBusinessInfoId());
                     mPopWindow.dismiss();//让PopupWindow消失
                     Toast.makeText(NearSellerActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
                 }
@@ -321,5 +406,15 @@ public class NearSellerActivity extends BaseActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(xrecyclerview != null){
+            xrecyclerview.destroy(); // this will totally release XR's memory
+            xrecyclerview = null;
+        }
     }
 }

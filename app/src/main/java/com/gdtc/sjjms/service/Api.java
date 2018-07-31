@@ -5,6 +5,7 @@ import com.gdtc.sjjms.bean.AreaTwoBean;
 import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.Comment;
+import com.gdtc.sjjms.bean.CommentList;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
@@ -63,10 +64,17 @@ public interface Api {
                                  @Query("name") String name, @Query("evaluate") String evaluate);
 
 
+
+    @GET("client/android/getEvaluateList.action")//评论列表
+    Call<CommentList> getCommentListData(@Query("paging") int paging,@Query("businessId") String businessId);
+
     @GET("client/android/insertCollection.action")//收藏与取消收藏
     Call<Collect> getCollectData(@Query("businessId") String businessId, @Query("openId") String openId,
                                  @Query("name") String name, @Query("type") String type);
 
     @GET("client/android/getSectionPage.action")//经纬度查询商家列表
     Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude,@Query("regional") String regional);
+
+
+
 }

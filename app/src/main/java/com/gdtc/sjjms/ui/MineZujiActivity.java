@@ -115,7 +115,7 @@ public class MineZujiActivity extends BaseActivity {
                 if(response.body().getResults().size()==0){
                     Toast.makeText(MineZujiActivity.this,"暂无数据",Toast.LENGTH_SHORT).show();
                 }else{
-                    list.clear();
+//                    list.clear();
                     list.addAll(response.body().getResults());
 
                     Log.e("xxxxxx",response.body().toString());
