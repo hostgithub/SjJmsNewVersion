@@ -26,6 +26,7 @@ import com.gdtc.sjjms.presenter.MainPresenter;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.utils.AppInfoUtil;
 import com.gdtc.sjjms.utils.LogUtil;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.gdtc.sjjms.utils.StatusBarUtil;
 import com.gdtc.sjjms.utils.UpdateDialog;
@@ -319,20 +320,23 @@ public class HomePageActivity extends BaseActivity implements MainContract.View{
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<UserInfo> call=api.uploadInfo(id,url,name);
         call.enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                sp.putString(ConstantValue.WEIXIN_OPENID,response.body().getOpenId());
-                sp.putString(ConstantValue.WEIXIN_HEADURL,response.body().getImage());
-                sp.putString(ConstantValue.WEIXIN_NICKNAME,response.body().getName());
+                if(response.body()!=null){
+                    sp.putString(ConstantValue.WEIXIN_OPENID,response.body().getOpenId());
+                    sp.putString(ConstantValue.WEIXIN_HEADURL,response.body().getImage());
+                    sp.putString(ConstantValue.WEIXIN_NICKNAME,response.body().getName());
+                }
             }
 
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
-                Toast.makeText(HomePageActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomePageActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

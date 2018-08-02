@@ -33,8 +33,8 @@ import com.gdtc.sjjms.bean.Comment;
 import com.gdtc.sjjms.bean.CommentList;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -52,8 +52,8 @@ public class NearSellerActivity extends BaseActivity {
 
     @BindView(R.id.tv_back)
     TextView tv_back;
-    @BindView(R.id.photoview)
-    PhotoView photoView;
+    @BindView(R.id.seller_image)
+    ImageView seller_image;
     @BindView(R.id.iv_tuijian)
     ImageView iv_tuijian;
     @BindView(R.id.iv_coll)//收藏
@@ -125,13 +125,13 @@ public class NearSellerActivity extends BaseActivity {
         }else {
             iv_coll.setImageResource(R.mipmap.basecs_collected);
         }
-        Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(photoView);
+        Glide.with(NearSellerActivity.this).load(nearbySellerDetailBean.getBusinessTitleImage()).into(seller_image);
         Log.e("--getBusinessTitleImage",nearbySellerDetailBean.getBusinessTitleImage());
         Log.e("----getBusinessInfoId--",nearbySellerDetailBean.getBusinessInfoId());
         seller_name.setText(nearbySellerDetailBean.getBusinessName());
-        seller_price.setText(nearbySellerDetailBean.getConsumption()+"/人");
+        seller_price.setText("人均:￥"+nearbySellerDetailBean.getConsumption()+"/人");
         seller_kind.setText(nearbySellerDetailBean.getCategory().substring(0,nearbySellerDetailBean.getCategory().length() - 1));
-        tv_service_time.setText("营业至"+nearbySellerDetailBean.getEndHours());
+        tv_service_time.setText("营业时间 "+nearbySellerDetailBean.getStartHours()+"--"+nearbySellerDetailBean.getEndHours());
         tv_address.setText(nearbySellerDetailBean.getBusinessAddress());
 
         tv_tel_phone.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
@@ -185,6 +185,7 @@ public class NearSellerActivity extends BaseActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<CommentList> call=api.getCommentListData(pages,id);
@@ -205,7 +206,7 @@ public class NearSellerActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CommentList> call, Throwable t) {
-                Toast.makeText(NearSellerActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(NearSellerActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -75,26 +75,25 @@
             android:src="@drawable/icon_edit_del" />
     </RelativeLayout>
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_tese_meishi"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="@dimen/icon_padding"
+        android:src="@drawable/title_b1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F0F0"
         android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_tese_meishi"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:padding="@dimen/icon_padding"
-            android:src="@drawable/title_b1" />
 
         <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
-            android:background="@color/white"
             android:padding="10dp"
             android:id="@+id/xrecyclerview">
         </com.jcodecraeer.xrecyclerview.XRecyclerView>

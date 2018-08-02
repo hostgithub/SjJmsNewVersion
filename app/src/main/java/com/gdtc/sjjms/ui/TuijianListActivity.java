@@ -16,6 +16,7 @@ import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.TuijianList;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -105,6 +106,7 @@ public class TuijianListActivity extends BaseActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<TuijianList> call=api.getTuijianData(id,pages);
@@ -124,7 +126,7 @@ public class TuijianListActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<TuijianList> call, Throwable t) {
-                Toast.makeText(TuijianListActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TuijianListActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

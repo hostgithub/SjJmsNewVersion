@@ -124,7 +124,7 @@ public class MineCollectActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<NearbySellerBean> call, Throwable t) {
-                Toast.makeText(MineCollectActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MineCollectActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -9,13 +9,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdtc.sjjms.Config;
+import com.gdtc.sjjms.ConstantValue;
+import com.gdtc.sjjms.MyApplication;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.adapter.RemenAdapter;
 import com.gdtc.sjjms.base.BaseFragment;
-import com.gdtc.sjjms.bean.NewCenter;
+import com.gdtc.sjjms.bean.NearbySellerBean;
+import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.ui.NearSellerActivity;
 import com.gdtc.sjjms.ui.SearchActivity;
 import com.gdtc.sjjms.utils.RecyclerViewSpacesItemDecoration;
+import com.gdtc.sjjms.utils.RetrofitUtils;
+import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -47,10 +53,12 @@ public class RemenFragment extends BaseFragment {
     TextView tv_search;
     @BindView(R.id.xrecyclerview)
     XRecyclerView mRecyclerView;
-    private ArrayList<NewCenter.ResultsBean> list;
+    private ArrayList<NearbySellerBean.ResultsBean> list;
     private RemenAdapter picAdapter;
     private StaggeredGridLayoutManager mLayoutManager;
     private int pages=1;
+
+    private SharePreferenceTools sp;
 
     private Unbinder mUnbinder;
 
@@ -79,6 +87,7 @@ public class RemenFragment extends BaseFragment {
 
         mUnbinder = ButterKnife.bind(this, view);
 
+        sp = new SharePreferenceTools(MyApplication.getContext());
         list=new ArrayList();
         initNewsData(1);
         //设置布局管理器为2列，纵向
@@ -106,8 +115,8 @@ public class RemenFragment extends BaseFragment {
         picAdapter.setOnItemClickLitener(new RemenAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //getData(Integer.parseInt(list.get(position)._id));
-                Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
+                getNearbyData(list.get(position).getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID));
+                //Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
             }
         });
         mRecyclerView.setAdapter(picAdapter);
@@ -138,22 +147,55 @@ public class RemenFragment extends BaseFragment {
     private void initNewsData(int pages) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(Config.BANNER_BASE_URL)
+                .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NewCenter> call=api.getNewCenterData("000100050007",pages);
-        call.enqueue(new Callback<NewCenter>() {
+        Call<NearbySellerBean> call=api.getHotListData(pages);
+        call.enqueue(new Callback<NearbySellerBean>() {
             @Override
-            public void onResponse(Call<NewCenter> call, Response<NewCenter> response) {
-                list.addAll(response.body().results);
-                Log.e("xxxxxx",response.body().toString());
-                picAdapter.notifyDataSetChanged();
+            public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {
+                if(response==null| response.body().getResults().size()==0){
+                    Toast.makeText(getActivity(),"暂无数据",Toast.LENGTH_SHORT).show();
+                }else {
+                    list.addAll(response.body().getResults());
+                    Log.e("xxxxxx",response.body().toString());
+                    picAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
-            public void onFailure(Call<NewCenter> call, Throwable t) {
-                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<NearbySellerBean> call, Throwable t) {
+                Toast.makeText(getActivity(),R.string.failure_tip,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void getNearbyData(String id,String openId) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id,openId);
+        call.enqueue(new Callback<NearbySellerDetailBean>() {
+            @Override
+            public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
+                if(response!=null&&response.body().getResults().size()!=0){
+                    NearbySellerDetailBean.ResultsBean nearbySellerDetailBean= response.body().getResults().get(0);
+                    Intent intent=new Intent(getContext(), NearSellerActivity.class);
+                    intent.putExtra(Config.NEWS,nearbySellerDetailBean);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbySellerDetailBean> call, Throwable t) {
+                Toast.makeText(getActivity(),R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

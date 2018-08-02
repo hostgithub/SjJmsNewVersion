@@ -13,15 +13,17 @@ import android.widget.Toast;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
-import com.gdtc.sjjms.adapter.NewsCenterAdapter;
+import com.gdtc.sjjms.adapter.HomeTuijianAdapter;
 import com.gdtc.sjjms.adapter.TopAdapter;
 import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.base.EndLessOnScrollListener;
 import com.gdtc.sjjms.bean.Banners;
-import com.gdtc.sjjms.bean.NewCenter;
+import com.gdtc.sjjms.bean.HomeTuijian;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.ui.HomeMeishiTuijianActivity;
 import com.gdtc.sjjms.ui.SearchActivity;
 import com.gdtc.sjjms.utils.CacheUtil;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.widget.CustomScrollView;
 import com.qbw.customview.RefreshLoadMoreLayout;
 import com.zanlabs.widget.infiniteviewpager.InfiniteViewPager;
@@ -87,8 +89,8 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
 
     @BindView(R.id.recyerview)
     RecyclerView mRecyclerView;
-    private ArrayList<NewCenter.ResultsBean> list;
-    private NewsCenterAdapter picAdapter;
+    private ArrayList<HomeTuijian.ResultsBean> list;
+    private HomeTuijianAdapter picAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int pages=1;
 
@@ -130,13 +132,16 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
         mRecyclerView.setNestedScrollingEnabled(false);
         linearLayoutManager.setAutoMeasureEnabled(true);
 
-        picAdapter=new NewsCenterAdapter(getActivity(),list);
+        picAdapter=new HomeTuijianAdapter(getActivity(),list);
         //条目点击事件
-        picAdapter.setOnItemClickLitener(new NewsCenterAdapter.OnItemClickListener() {
+        picAdapter.setOnItemClickLitener(new HomeTuijianAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //getData(Integer.parseInt(list.get(position)._id));
                 Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), HomeMeishiTuijianActivity.class);
+                intent.putExtra(Config.NEWS,list.get(position));
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(picAdapter);
@@ -179,29 +184,34 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
 
 
     /**
-     * 图片瀑布流 初始化 网络请求第一页数据
+     * 网络请求第一页数据
      * @param pages
      */
     private void initNewsData(int pages) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(Config.BANNER_BASE_URL)
+                .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NewCenter> call=api.getNewCenterData("000100050007",pages);
-        call.enqueue(new Callback<NewCenter>() {
+        Call<HomeTuijian> call=api.getHomeTuijianListData(pages);
+        call.enqueue(new Callback<HomeTuijian>() {
             @Override
-            public void onResponse(Call<NewCenter> call, Response<NewCenter> response) {
-                list.addAll(response.body().results);
-                Log.e("xxxxxx",response.body().toString());
-                picAdapter.notifyDataSetChanged();
-                mRefreshloadmore.stopLoadMore();
+            public void onResponse(Call<HomeTuijian> call, Response<HomeTuijian> response) {
+                if(response.body().getResults().size()!=0| response.body()!=null){
+                    list.addAll(response.body().getResults());
+                    Log.e("xxxxxx",response.body().toString());
+                    picAdapter.notifyDataSetChanged();
+                    mRefreshloadmore.stopLoadMore();
+                }else {
+                    Toast.makeText(getActivity(),R.string.nodata,Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<NewCenter> call, Throwable t) {
-                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<HomeTuijian> call, Throwable t) {
+                Toast.makeText(getActivity(),R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -287,7 +297,7 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
 
             @Override
             public void onFailure(Call<Banners> call, Throwable t) {
-                Toast.makeText(getActivity(),"请求失败!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }

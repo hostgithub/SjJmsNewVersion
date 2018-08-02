@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseViewHolder;
-import com.gdtc.sjjms.bean.NewCenter;
+import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.utils.ImageLoaderUtils;
 
 import java.util.ArrayList;
@@ -29,18 +28,18 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int ITEM_NOIMAGE = 1;
     private static final int ITEM_HASIMAGE = 2;
 
-    private ArrayList<NewCenter.ResultsBean> datas;
+    private ArrayList<NearbySellerBean.ResultsBean> datas;
     private Context mContext;
     private int viewFooter;
     private View footerView;
     private OnItemClickListener mOnItemClickListener;
 
-    public RemenAdapter(Context context, ArrayList<NewCenter.ResultsBean> datas) {
+    public RemenAdapter(Context context, ArrayList<NearbySellerBean.ResultsBean> datas) {
         this.datas = datas;
         this.mContext = context;
     }
 
-    public void replaceAll(List<NewCenter.ResultsBean> elements) {
+    public void replaceAll(List<NearbySellerBean.ResultsBean> elements) {
         if (datas.size() > 0) {
             datas.clear();
         }
@@ -48,7 +47,7 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void addAll(List<NewCenter.ResultsBean> elements) {
+    public void addAll(List<NearbySellerBean.ResultsBean> elements) {
         datas.addAll(elements);
         notifyDataSetChanged();
     }
@@ -79,9 +78,21 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             //int type = getItemViewType(position);
-            final NewCenter.ResultsBean item = datas.get(position);
+            final NearbySellerBean.ResultsBean item = datas.get(position);
 
-            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.cover), Config.BANNER_BASE_URL+item.picName);
+            //由于后台没有给图片高度 所以下方代码是自己随机的高度 达到瀑布流的基本效果 不是很好看 所以注释掉
+
+//            ImageView ivImage = (ImageView) holder.itemView.findViewById(R.id.cover);
+//            int width = ((Activity) ivImage.getContext()).getWindowManager().getDefaultDisplay().getWidth();
+//            ViewGroup.LayoutParams params = ivImage.getLayoutParams();
+//            //设置图片的相对于屏幕的宽高比
+//            params.width = width/2;
+//            params.height =  (int) (200 + Math.random() * 400) ;
+//            ivImage.setLayoutParams(params);
+
+
+            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.cover), item.getBusinessTitleImage());
+            holder.setText(R.id.item_title,item.getBusinessName());
 
 
             //存在记录的高度时先Layout再异步加载图片

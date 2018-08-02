@@ -29,6 +29,7 @@ import com.gdtc.sjjms.event.EventUtil;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.ui.NearSellerActivity;
 import com.gdtc.sjjms.utils.DoubleListPopViewUtil;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.gdtc.sjjms.utils.Utils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -393,6 +394,7 @@ public class NearbyFragment extends BaseFragment {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<NearbySellerBean> call=api.getNearbySellerData(pages,id);
@@ -423,6 +425,7 @@ public class NearbyFragment extends BaseFragment {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id,openId);
@@ -515,6 +518,7 @@ public class NearbyFragment extends BaseFragment {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<NearbySellerBean> call=api.getNearbySellerListData(pages,jingdu,weidu,district);

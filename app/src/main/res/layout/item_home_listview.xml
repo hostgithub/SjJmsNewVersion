@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
         app:srcCompat="@mipmap/dft_avatar"
         android:layout_alignParentStart="true"
         />
@@ -23,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/cover"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/cover"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_toEndOf="@+id/cover"
-        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/title"
         android:orientation="horizontal">
 
@@ -63,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-
             android:text="暂无人均价格"
             android:layout_toRightOf="@+id/tv_grade"
             android:textColor="@color/black"

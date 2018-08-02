@@ -130,6 +130,9 @@
             android:name=".ui.NearSellerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.HomeMeishiTuijianActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.SystemSettingActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

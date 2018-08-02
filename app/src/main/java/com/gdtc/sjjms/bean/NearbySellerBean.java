@@ -76,6 +76,16 @@ public class NearbySellerBean implements Serializable {
         private String BusinessActivity;
         private String Category;
 
+        private int height;
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
         public String getBusinessInfoId() {
             return BusinessInfoId;
         }

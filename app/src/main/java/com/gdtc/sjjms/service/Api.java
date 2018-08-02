@@ -6,6 +6,7 @@ import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.Comment;
 import com.gdtc.sjjms.bean.CommentList;
+import com.gdtc.sjjms.bean.HomeTuijian;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
@@ -76,5 +77,9 @@ public interface Api {
     Call<NearbySellerBean> getNearbySellerListData(@Query("paging") int paging,@Query("longitude") String longitude,@Query("latitude") String latitude,@Query("regional") String regional);
 
 
+    @GET("client/android/getHotList.action")//热门商家列表
+    Call<NearbySellerBean> getHotListData(@Query("paging") int paging);
 
+    @GET("client/android/getRecommendList.action")//美食推荐列表
+    Call<HomeTuijian> getHomeTuijianListData(@Query("paging") int paging);
 }
