@@ -31,7 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MineCollectActivity extends BaseActivity {
+public class SearchListActivity extends BaseActivity {
 
 
     @BindView(R.id.tv_back)
@@ -54,11 +54,12 @@ public class MineCollectActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_title.setText("我的收藏");
+
+        tv_title.setText("商家列表");
         sp = new SharePreferenceTools(MyApplication.getContext());
 
         list=new ArrayList();
-        initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),1);
+        initZujiListData(1,getIntent().getStringExtra(Config.NEWS));
         linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         xrecyclerview.setLayoutManager(linearLayoutManager);
@@ -85,22 +86,22 @@ public class MineCollectActivity extends BaseActivity {
             public void onRefresh() {
                 pages = 1;
                 list.clear();
+                initZujiListData(1,getIntent().getStringExtra(Config.NEWS));
                 nearbyAdapter.notifyDataSetChanged();
-                initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),1);
                 xrecyclerview.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
                 pages++;
-                initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),pages);
+                initZujiListData(pages,getIntent().getStringExtra(Config.NEWS));
                 xrecyclerview.loadMoreComplete();
             }
         });
     }
 
 
-    private void initCollectListData(String id,int pages) {
+    private void initZujiListData(int pages,String text) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
@@ -108,13 +109,13 @@ public class MineCollectActivity extends BaseActivity {
                 .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NearbySellerBean> call=api.getMineCollectData(id,pages);
+        Call<NearbySellerBean> call=api.getSearchList(pages,text);
         call.enqueue(new Callback<NearbySellerBean>() {
             @Override
             public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {
 
                 if(response.body().getResults().size()==0){
-                    Toast.makeText(MineCollectActivity.this,"暂无数据",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchListActivity.this,"暂无数据",Toast.LENGTH_SHORT).show();
                 }else{
 //                    list.clear();
                     list.addAll(response.body().getResults());
@@ -126,7 +127,7 @@ public class MineCollectActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<NearbySellerBean> call, Throwable t) {
-                Toast.makeText(MineCollectActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchListActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -147,7 +148,7 @@ public class MineCollectActivity extends BaseActivity {
             public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
                 if(response!=null){
                     NearbySellerDetailBean.ResultsBean nearbySellerDetailBean= response.body().getResults().get(0);
-                    Intent intent=new Intent(MineCollectActivity.this, NearSellerActivity.class);
+                    Intent intent=new Intent(SearchListActivity.this, NearSellerActivity.class);
                     intent.putExtra(Config.NEWS,nearbySellerDetailBean);
                     startActivity(intent);
                 }
@@ -155,7 +156,7 @@ public class MineCollectActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<NearbySellerDetailBean> call, Throwable t) {
-                Toast.makeText(MineCollectActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchListActivity.this,R.string.failure_tip,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -165,7 +166,7 @@ public class MineCollectActivity extends BaseActivity {
         switch (view.getId()){
             case R.id.tv_back:
                 finish();
-                MineCollectActivity.this.overridePendingTransition(0, R.anim.activity_close);
+                SearchListActivity.this.overridePendingTransition(0, R.anim.activity_close);
                 break;
             default:
                 break;

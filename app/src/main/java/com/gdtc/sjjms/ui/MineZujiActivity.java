@@ -17,6 +17,7 @@ import com.gdtc.sjjms.base.BaseActivity;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -105,6 +106,7 @@ public class MineZujiActivity extends BaseActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<NearbySellerBean> call=api.getMineZujiData(id,pages);
@@ -137,6 +139,7 @@ public class MineZujiActivity extends BaseActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id,openId);

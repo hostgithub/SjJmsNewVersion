@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.bean.Banners;
 import com.zanlabs.widget.infiniteviewpager.InfinitePagerAdapter;
@@ -59,15 +58,15 @@ public class TopAdapter extends InfinitePagerAdapter
             holder = (ViewsHolder) view.getTag();
         }
 
-        if(resultsBeanList.get(position).getUrl().isEmpty()){
+        if(resultsBeanList.get(position).getBusinessTitleImage().isEmpty()){
             holder.mDraweeView.setImageResource(R.drawable.ic_empty_picture);
         }else{
-            holder.mDraweeView.setImageURI(Config.BANNER_BASE_URL+resultsBeanList.get(position).getUrl());
+            holder.mDraweeView.setImageURI(resultsBeanList.get(position).getBusinessTitleImage());
         }
-        if(resultsBeanList.get(position).getTitle().isEmpty()){
+        if(resultsBeanList.get(position).getBusinessName().isEmpty()){
             holder.tv_title.setText("");
         }else{
-            holder.tv_title.setText(resultsBeanList.get(position).getTitle());
+            holder.tv_title.setText(resultsBeanList.get(position).getBusinessName());
         }
 
         view.setOnClickListener(new View.OnClickListener()

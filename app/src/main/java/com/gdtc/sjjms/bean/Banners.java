@@ -11,12 +11,20 @@ public class Banners implements Serializable
 {
 
     /**
-     * results : [{"_id":"17753","url":"/html/index/content/2013/04/images/news_113653214520300.jpg","title":"日出"},{"_id":"17499","url":"/html/index/content/2013/03/images/news_113642826610310.jpg","title":"五彩秋色"},{"_id":"17497","url":"/html/index/content/2013/03/images/news_113642824455310.jpg","title":"佳木斯敖其湾风光"},{"_id":"17492","url":"/html/index/content/2013/03/images/news_113642818986250.JPG","title":"佳木斯宾馆"},{"_id":"17489","url":"/html/index/content/2013/03/images/news_113642817385310.jpg","title":"工人文化宫"},{"_id":"17488","url":"/html/index/content/2013/03/images/news_113642816146250.jpg","title":"佳木斯第一中学"}]
+     * results : [{"BusinessInfoId":"fe25fffd-83db-4453-af01-48ded1cc1c71","BusinessName":"测试","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331891198460.jpg"},{"BusinessInfoId":"922fb02b-421c-43d0-ab2b-696620f980fe","BusinessName":"汉庭酒店","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331890755240.jpg"},{"BusinessInfoId":"2bf8394c-bcff-41e7-9db5-95357b21827f","BusinessName":"携程","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331891805180.jpg"},{"BusinessInfoId":"6882feff-b990-40d7-a815-c7fad1f04ac3","BusinessName":"七天快捷宾馆","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331890323030.jpg"},{"BusinessInfoId":"10661652-00d1-4285-bd18-6f2accf4cb1d","BusinessName":"扒虾小妹","BusinessTitleImage":"http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331892526030.jpg"}]
      * success : true
      */
 
-    public String success;
+    private String success;
     private List<ResultsBean> results;
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
 
     public List<ResultsBean> getResults() {
         return results;
@@ -26,39 +34,39 @@ public class Banners implements Serializable
         this.results = results;
     }
 
-    public static class ResultsBean implements Serializable{
+    public static class ResultsBean {
         /**
-         * _id : 17753
-         * url : /html/index/content/2013/04/images/news_113653214520300.jpg
-         * title : 日出
+         * BusinessInfoId : fe25fffd-83db-4453-af01-48ded1cc1c71
+         * BusinessName : 测试
+         * BusinessTitleImage : http://192.168.0.111:10020/html/file/businessinfo/images/businessinfo_admin_1_15331891198460.jpg
          */
 
-        private String _id;
-        private String url;
-        private String title;
+        private String BusinessInfoId;
+        private String BusinessName;
+        private String BusinessTitleImage;
 
-        public String get_id() {
-            return _id;
+        public String getBusinessInfoId() {
+            return BusinessInfoId;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setBusinessInfoId(String BusinessInfoId) {
+            this.BusinessInfoId = BusinessInfoId;
         }
 
-        public String getUrl() {
-            return url;
+        public String getBusinessName() {
+            return BusinessName;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setBusinessName(String BusinessName) {
+            this.BusinessName = BusinessName;
         }
 
-        public String getTitle() {
-            return title;
+        public String getBusinessTitleImage() {
+            return BusinessTitleImage;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setBusinessTitleImage(String BusinessTitleImage) {
+            this.BusinessTitleImage = BusinessTitleImage;
         }
     }
 }

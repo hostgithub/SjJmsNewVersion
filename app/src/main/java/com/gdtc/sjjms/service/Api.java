@@ -7,6 +7,7 @@ import com.gdtc.sjjms.bean.Collect;
 import com.gdtc.sjjms.bean.Comment;
 import com.gdtc.sjjms.bean.CommentList;
 import com.gdtc.sjjms.bean.HomeTuijian;
+import com.gdtc.sjjms.bean.Kind;
 import com.gdtc.sjjms.bean.NearbySellerBean;
 import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.bean.NewCenter;
@@ -25,8 +26,12 @@ import retrofit2.http.Query;
 public interface Api {
 
 
-    @POST("app/corNewsListImg.do")
+    @POST("client/android/getSowingMap.action")
     Call<Banners> getBannerData();
+
+
+    @POST("client/android/getProduct.action")
+    Call<Kind> getFenlei(@Query("parentid") int parentid);
 
     @GET("client/android/insertMember.action")//上传个人信息
     Call<UserInfo> uploadInfo(@Query("openId") String openId, @Query("image") String image, @Query("name") String name);
@@ -51,6 +56,9 @@ public interface Api {
 
     @GET("client/android/getMarkList.action")//我的足迹列表
     Call<NearbySellerBean> getMineZujiData(@Query("openId") String openId,@Query("paging") int paging);
+
+    @GET("client/android/getSearchList.action")//搜索列表
+    Call<NearbySellerBean> getSearchList(@Query("paging") int paging,@Query("businessName") String openId);
 
 
     @GET("client/android/getBusinessInfoById.action")//商家详情

@@ -1,6 +1,7 @@
 package com.gdtc.sjjms.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,8 +18,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.utils.RecordSQLiteOpenHelper;
 import com.gdtc.sjjms.widget.MyListView;
@@ -70,10 +71,10 @@ public class SearchActivity extends AppCompatActivity
                         queryData("");
                     }
                     // TODO 根据输入的内容模糊查询商品，并跳转到另一个界面，由你自己去实现
-                    Toast.makeText(SearchActivity.this, "clicked!", Toast.LENGTH_SHORT).show();
-//                    Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
-//                    intent.putExtra(Config.NEWS,et_search.getText().toString().trim());
-//                    startActivity(intent);
+                    //Toast.makeText(SearchActivity.this, "clicked!", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
+                    intent.putExtra(Config.NEWS,et_search.getText().toString().trim());
+                    startActivity(intent);
                 }
                 return false;
             }
@@ -126,11 +127,11 @@ public class SearchActivity extends AppCompatActivity
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 String name = textView.getText().toString();
                 et_search.setText(name);
-                Toast.makeText(SearchActivity.this, name, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchActivity.this, name, Toast.LENGTH_SHORT).show();
                 // TODO 获取到item上面的文字，根据该关键字跳转到另一个页面查询，由你自己去实现
-//                Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
-//                intent.putExtra(Config.NEWS,name);
-//                startActivity(intent);
+                Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
+                intent.putExtra(Config.NEWS,name);
+                startActivity(intent);
             }
         });
 

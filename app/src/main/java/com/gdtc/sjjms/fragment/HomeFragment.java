@@ -7,10 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.bumptech.glide.Glide;
 import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.adapter.HomeTuijianAdapter;
@@ -19,6 +21,7 @@ import com.gdtc.sjjms.base.BaseFragment;
 import com.gdtc.sjjms.base.EndLessOnScrollListener;
 import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.HomeTuijian;
+import com.gdtc.sjjms.bean.Kind;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.ui.HomeMeishiTuijianActivity;
 import com.gdtc.sjjms.ui.SearchActivity;
@@ -28,6 +31,7 @@ import com.gdtc.sjjms.widget.CustomScrollView;
 import com.qbw.customview.RefreshLoadMoreLayout;
 import com.zanlabs.widget.infiniteviewpager.InfiniteViewPager;
 import com.zanlabs.widget.infiniteviewpager.indicator.CirclePageIndicator;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,16 +65,26 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
     TextView tv_search;
     protected Handler mHandler = new Handler();
 
-    @BindView(R.id.tv_meishi)
-    TextView tv_meishi;
-    @BindView(R.id.tv_techan)
-    TextView tv_techan;
-    @BindView(R.id.tv_renqi)
-    TextView tv_renqi;
-    @BindView(R.id.tv_youhui)
-    TextView tv_youhui;
-    @BindView(R.id.tv_caipu)
-    TextView tv_caipu;
+    @BindView(R.id.tv_1)
+    TextView tv_1;
+    @BindView(R.id.tv_2)
+    TextView tv_2;
+    @BindView(R.id.tv_3)
+    TextView tv_3;
+    @BindView(R.id.tv_4)
+    TextView tv_4;
+
+    @BindView(R.id.image1)
+    ImageView image1;
+    @BindView(R.id.image2)
+    ImageView image2;
+    @BindView(R.id.image3)
+    ImageView image3;
+    @BindView(R.id.image4)
+    ImageView image4;
+
+    @BindView(R.id.all_kind)
+    AutoRelativeLayout allKind;
 
     @BindView(R.id.home_recycler)
     RecyclerView mHomeRecycler;
@@ -81,6 +95,7 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
     @BindView(R.id.home_header)
     RecyclerViewHeader mHomeHeader;
     private List<Banners.ResultsBean> resultsBeanList;
+    private List<Kind.ResultsBean> kindList;
     private List<String> banner_url;
     private Unbinder mUnbinder;
 
@@ -103,6 +118,7 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
     public void initVariables() {
         banner_url = new ArrayList<>();
         resultsBeanList = new ArrayList<>();
+        kindList = new ArrayList<>();
     }
 
     @Override
@@ -123,6 +139,7 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
         mHomeHeader.attachTo(mHomeRecycler,true);
         initBannerData(); //服务器 链接不上  网页404
 
+        initKindData();
         list=new ArrayList();
         initNewsData(1);
         linearLayoutManager=new LinearLayoutManager(getContext());
@@ -266,8 +283,9 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
     private void initBannerData() {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(Config.BANNER_BASE_URL)
+                .baseUrl(Config.NEARBY_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
         Call<Banners> call=api.getBannerData();
@@ -279,9 +297,9 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
                     CacheUtil cacheUtil=CacheUtil.get(getActivity());
                     cacheUtil.put(Config.CACHE,banners);
                     resultsBeanList=banners.getResults();
-                    Log.e("++++++++++",resultsBeanList.get(0).get_id());
-                    Log.e("++++++++++",resultsBeanList.get(0).getTitle());
-                    Log.e("++++++++++",resultsBeanList.get(0).getUrl());
+                    Log.e("++++++++++",resultsBeanList.get(0).getBusinessInfoId());
+                    Log.e("++++++++++",resultsBeanList.get(0).getBusinessName());
+                    Log.e("++++++++++",resultsBeanList.get(0).getBusinessTitleImage());
                     Log.e("++++++++++",resultsBeanList.size()+"");
 
                     TopAdapter adapter = new TopAdapter(getActivity(), resultsBeanList,banner_url);
@@ -302,30 +320,78 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
         });
     }
 
-    @OnClick({ R.id.tv_search,R.id.tv_meishi,R.id.tv_techan,R.id.tv_renqi,R.id.tv_youhui,R.id.tv_caipu})
+
+
+    /**
+     *初始化 Banner数据
+     */
+    private void initKindData() {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<Kind> call=api.getFenlei(0);
+        call.enqueue(new Callback<Kind>() {
+            @Override
+            public void onResponse(Call<Kind> call, Response<Kind> response) {
+                if(response.body()!=null){
+                    Kind banners=response.body();
+                    CacheUtil cacheUtil=CacheUtil.get(getActivity());
+                    cacheUtil.put(Config.CACHE,banners);
+                    kindList=banners.getResults();
+                    Log.e("++++++++++",kindList.get(0).getParentid());
+                    tv_1.setText(kindList.get(0).getProductName());
+                    tv_2.setText(kindList.get(1).getProductName());
+                    tv_3.setText(kindList.get(2).getProductName());
+                    tv_4.setText(kindList.get(3).getProductName());
+                    Glide.with(getContext()).load(kindList.get(0).getImageurl()).into(image1);
+                    Glide.with(getContext()).load(kindList.get(1).getImageurl()).into(image2);
+                    Glide.with(getContext()).load(kindList.get(2).getImageurl()).into(image3);
+                    Glide.with(getContext()).load(kindList.get(3).getImageurl()).into(image4);
+
+                }else{
+                    Toast.makeText(getActivity(),"服务器暂时未响应!",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Kind> call, Throwable t) {
+                Toast.makeText(getActivity(),R.string.failure_tip,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @OnClick({ R.id.tv_search,R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.all_kind})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.tv_meishi:
+            case R.id.image1:
+                Log.e("++++++++++",kindList.get(0).getParentid());
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.tv_techan:
+            case R.id.image2:
+                Log.e("++++++++++",kindList.get(1).getParentid());
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.tv_renqi:
+            case R.id.image3:
+                Log.e("++++++++++",kindList.get(2).getParentid());
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.tv_youhui:
+            case R.id.image4:
+                Log.e("++++++++++",kindList.get(3).getParentid());
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.tv_caipu:
+            case R.id.all_kind:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
