@@ -67,7 +67,7 @@ public class ToastUtil {
      */
     public ToastUtil setGravity(int gravity) {
         if (mToast != null) {
-            mToast.setGravity(gravity, 0, 0);
+            mToast.setGravity(gravity, 100, 20);
         }
         return this;
     }

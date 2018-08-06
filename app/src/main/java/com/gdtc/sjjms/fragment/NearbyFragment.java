@@ -28,6 +28,7 @@ import com.gdtc.sjjms.bean.NearbySellerDetailBean;
 import com.gdtc.sjjms.event.EventUtil;
 import com.gdtc.sjjms.service.Api;
 import com.gdtc.sjjms.ui.NearSellerActivity;
+import com.gdtc.sjjms.ui.SearchActivity;
 import com.gdtc.sjjms.utils.DoubleListPopViewUtil;
 import com.gdtc.sjjms.utils.RetrofitUtils;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
@@ -287,7 +288,7 @@ public class NearbyFragment extends BaseFragment {
     }
 
 
-    @OnClick({ R.id.iv_refresh,R.id.tv_fujin})
+    @OnClick({ R.id.iv_refresh,R.id.tv_fujin,R.id.tv_search})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_refresh:
@@ -297,6 +298,10 @@ public class NearbyFragment extends BaseFragment {
             case R.id.tv_fujin:
 //                initAreaOneData();
                 showAreaPopBtn();
+                break;
+            case R.id.tv_search:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             default:
                 break;

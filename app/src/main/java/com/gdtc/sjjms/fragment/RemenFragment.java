@@ -126,6 +126,7 @@ public class RemenFragment extends BaseFragment {
             public void onRefresh() {
                 pages = 1;
                 list.clear();
+                picAdapter.notifyDataSetChanged();
                 initNewsData(1);
                 mRecyclerView.refreshComplete();
             }

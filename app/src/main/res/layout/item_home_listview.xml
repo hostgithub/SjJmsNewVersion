@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
-    android:background="@color/white"
+    android:background="@drawable/shape_card_white"
     android:padding="@dimen/icon_padding">
 
     <ImageView
         android:id="@+id/cover"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="15dp"
-        android:layout_centerVertical="true"
+
         android:scaleType="centerCrop"
         app:srcCompat="@mipmap/dft_avatar"
         android:layout_alignParentStart="true"
@@ -33,11 +33,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_toEndOf="@+id/cover"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/title"
-        android:orientation="horizontal">
+        android:layout_alignLeft="@+id/title">
 
         <LinearLayout
             android:id="@+id/ll_star"
@@ -62,7 +59,6 @@
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:text="暂无人均价格"
             android:layout_toRightOf="@+id/tv_grade"
             android:textColor="@color/black"

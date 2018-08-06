@@ -1,20 +1,34 @@
 package com.gdtc.sjjms.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gdtc.sjjms.Config;
+import com.gdtc.sjjms.ConstantValue;
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.bean.Banners;
+import com.gdtc.sjjms.bean.NearbySellerDetailBean;
+import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.ui.NearSellerActivity;
+import com.gdtc.sjjms.utils.RetrofitUtils;
+import com.gdtc.sjjms.utils.SharePreferenceTools;
 import com.zanlabs.widget.infiniteviewpager.InfinitePagerAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Administrator on 2016/12/5.
@@ -23,6 +37,7 @@ import butterknife.ButterKnife;
 public class TopAdapter extends InfinitePagerAdapter
 {
     private Context mContext;
+    private SharePreferenceTools sp;
     //    private List<Banners> mList;
     private List<String> banner_img;
     private List<Banners.ResultsBean> resultsBeanList;
@@ -33,6 +48,7 @@ public class TopAdapter extends InfinitePagerAdapter
         mContext = context;
         this.resultsBeanList = resultsBeanList;
         this.banner_url = banner_url;
+        sp=new SharePreferenceTools(context);
     }
 
     @Override
@@ -74,12 +90,40 @@ public class TopAdapter extends InfinitePagerAdapter
             @Override
             public void onClick(View v)
             {
-                //getData(Integer.parseInt(resultsBeanList.get(position).get_id()));
+                getNearbyData(resultsBeanList.get(position).getBusinessInfoId(),sp.getString(ConstantValue.WEIXIN_OPENID));
             }
         });
         return view;
     }
 
+
+
+    private void getNearbyData(String id,String openId) {
+        //使用retrofit配置api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(Config.NEARBY_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
+                .build();
+        Api api =retrofit.create(Api.class);
+        Call<NearbySellerDetailBean> call=api.getNearbySellerDetailData(id,openId);
+        call.enqueue(new Callback<NearbySellerDetailBean>() {
+            @Override
+            public void onResponse(Call<NearbySellerDetailBean> call, Response<NearbySellerDetailBean> response) {
+                if(response!=null&&response.body().getResults().size()!=0){
+                    NearbySellerDetailBean.ResultsBean nearbySellerDetailBean= response.body().getResults().get(0);
+                    Intent intent=new Intent(mContext, NearSellerActivity.class);
+                    intent.putExtra(Config.NEWS,nearbySellerDetailBean);
+                    mContext.startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbySellerDetailBean> call, Throwable t) {
+                Toast.makeText(mContext,R.string.failure_tip,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 //    private void getData(int id){
 //        //使用retrofit配置api
 //        Retrofit retrofit=new Retrofit.Builder()

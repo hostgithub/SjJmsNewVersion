@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gdtc.sjjms.Config;
 import com.gdtc.sjjms.R;
@@ -61,20 +62,30 @@ public class SearchActivity extends AppCompatActivity
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {// 修改回车键功能
-                    // 先隐藏键盘
-                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                            getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    // 按完搜索键后将当前查询的关键字保存起来,如果该关键字已经存在就不执行保存
-                    boolean hasData = hasData(et_search.getText().toString().trim());
-                    if (!hasData) {
-                        insertData(et_search.getText().toString().trim());
-                        queryData("");
-                    }
+
                     // TODO 根据输入的内容模糊查询商品，并跳转到另一个界面，由你自己去实现
                     //Toast.makeText(SearchActivity.this, "clicked!", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
-                    intent.putExtra(Config.NEWS,et_search.getText().toString().trim());
-                    startActivity(intent);
+                    if(et_search.getText().toString().trim().isEmpty()){
+                        // 先隐藏键盘
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        Toast.makeText(SearchActivity.this, "请输入商家名称", Toast.LENGTH_SHORT).show();
+                    }else {
+                        // 先隐藏键盘
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        // 按完搜索键后将当前查询的关键字保存起来,如果该关键字已经存在就不执行保存
+                        boolean hasData = hasData(et_search.getText().toString().trim());
+                        if (!hasData) {
+                            insertData(et_search.getText().toString().trim());
+                            queryData("");
+                        }
+
+                        Intent intent=new Intent(SearchActivity.this,SearchListActivity.class);
+                        intent.putExtra(Config.NEWS,et_search.getText().toString().trim());
+                        startActivity(intent);
+                    }
+
                 }
                 return false;
             }

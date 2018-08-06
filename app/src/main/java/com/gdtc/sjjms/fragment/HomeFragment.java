@@ -23,6 +23,8 @@ import com.gdtc.sjjms.bean.Banners;
 import com.gdtc.sjjms.bean.HomeTuijian;
 import com.gdtc.sjjms.bean.Kind;
 import com.gdtc.sjjms.service.Api;
+import com.gdtc.sjjms.ui.AllKindActivity;
+import com.gdtc.sjjms.ui.HomeKindActivity;
 import com.gdtc.sjjms.ui.HomeMeishiTuijianActivity;
 import com.gdtc.sjjms.ui.SearchActivity;
 import com.gdtc.sjjms.utils.CacheUtil;
@@ -153,9 +155,8 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
         //条目点击事件
         picAdapter.setOnItemClickLitener(new HomeTuijianAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position) {//美食推荐
                 //getData(Integer.parseInt(list.get(position)._id));
-                Toast.makeText(getActivity(),"点击了"+position,Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getContext(), HomeMeishiTuijianActivity.class);
                 intent.putExtra(Config.NEWS,list.get(position));
                 startActivity(intent);
@@ -242,6 +243,7 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
 
     @Override
     public void onResume() {
+        mHomeViewpager.startAutoScroll();
         super.onResume();
     }
 
@@ -372,27 +374,35 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             case R.id.image1:
-                Log.e("++++++++++",kindList.get(0).getParentid());
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+//                Log.e("++++++++++",kindList.get(0).getParentid());
+                Intent intent1=new Intent(new Intent(getActivity(), HomeKindActivity.class));
+                intent1.putExtra(Config.NEWS,kindList.get(0).getProductName());
+                startActivity(intent1);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             case R.id.image2:
-                Log.e("++++++++++",kindList.get(1).getParentid());
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+//                Log.e("++++++++++",kindList.get(1).getParentid());
+                Intent intent2=new Intent(new Intent(getActivity(), HomeKindActivity.class));
+                intent2.putExtra(Config.NEWS,kindList.get(1).getProductName());
+                startActivity(intent2);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             case R.id.image3:
-                Log.e("++++++++++",kindList.get(2).getParentid());
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+//                Log.e("++++++++++",kindList.get(2).getParentid());
+                Intent intent3=new Intent(new Intent(getActivity(), HomeKindActivity.class));
+                intent3.putExtra(Config.NEWS,kindList.get(2).getProductName());
+                startActivity(intent3);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             case R.id.image4:
-                Log.e("++++++++++",kindList.get(3).getParentid());
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+//                Log.e("++++++++++",kindList.get(3).getParentid());
+                Intent intent4=new Intent(new Intent(getActivity(), HomeKindActivity.class));
+                intent4.putExtra(Config.NEWS,kindList.get(3).getProductName());
+                startActivity(intent4);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             case R.id.all_kind:
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                startActivity(new Intent(getActivity(), AllKindActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
             default:

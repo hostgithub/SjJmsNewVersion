@@ -45,6 +45,15 @@ public class Kind implements Serializable
         private String Parentid;
         private String ProductName;
         private String Imageurl;
+        private int height;
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
 
         public String getParentid() {
             return Parentid;

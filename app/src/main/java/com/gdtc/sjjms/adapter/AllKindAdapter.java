@@ -12,10 +12,9 @@ import android.widget.ImageView;
 
 import com.gdtc.sjjms.R;
 import com.gdtc.sjjms.base.BaseViewHolder;
-import com.gdtc.sjjms.bean.NearbySellerBean;
+import com.gdtc.sjjms.bean.Kind;
 import com.gdtc.sjjms.utils.ImageLoaderUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,23 +22,23 @@ import java.util.List;
  * 发现的适配器，分为两种样式
  */
 
-public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class AllKindAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int TYPE_FOOTER = 0;
     private static final int ITEM_NOIMAGE = 1;
     private static final int ITEM_HASIMAGE = 2;
 
-    private ArrayList<NearbySellerBean.ResultsBean> datas;
+    private List<Kind.ResultsBean> datas;
     private Context mContext;
     private int viewFooter;
     private View footerView;
     private OnItemClickListener mOnItemClickListener;
 
-    public RemenAdapter(Context context, ArrayList<NearbySellerBean.ResultsBean> datas) {
+    public AllKindAdapter(Context context, List<Kind.ResultsBean> datas) {
         this.datas = datas;
         this.mContext = context;
     }
 
-    public void replaceAll(List<NearbySellerBean.ResultsBean> elements) {
+    public void replaceAll(List<Kind.ResultsBean> elements) {
         if (datas.size() > 0) {
             datas.clear();
         }
@@ -47,7 +46,7 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void addAll(List<NearbySellerBean.ResultsBean> elements) {
+    public void addAll(List<Kind.ResultsBean> elements) {
         datas.addAll(elements);
         notifyDataSetChanged();
     }
@@ -62,7 +61,7 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //            icon_back new BaseViewHolder(footerView);
 //        }
 
-        return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cardview_remen, parent, false));
+        return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_allkind, parent, false));
     }
 
     @Override
@@ -78,7 +77,7 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             //int type = getItemViewType(position);
-            final NearbySellerBean.ResultsBean item = datas.get(position);
+            final Kind.ResultsBean item = datas.get(position);
 
             //由于后台没有给图片高度 所以下方代码是自己随机的高度 达到瀑布流的基本效果 不是很好看 所以注释掉
 
@@ -91,8 +90,8 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 //            ivImage.setLayoutParams(params);
 
 
-            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.cover), item.getBusinessTitleImage());
-            holder.setText(R.id.item_title,item.getBusinessName());
+            ImageLoaderUtils.loadingImg(mContext, (ImageView) holder.getView(R.id.ItemImage), item.getImageurl());
+            holder.setText(R.id.ItemText,item.getProductName());
 
 
             //存在记录的高度时先Layout再异步加载图片
@@ -170,7 +169,7 @@ public class RemenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         Display display = windowManager.getDefaultDisplay();
         display.getMetrics(dm);
         final int screenWidth = dm.widthPixels;
-        return Math.round((float) screenWidth / (float) datas.get(position).getHeight() * 100f);
+        return Math.round((float) screenWidth / (float) datas.get(position).getHeight() * 10f);
 
 
 //        int type = ITEM_HASIMAGE;

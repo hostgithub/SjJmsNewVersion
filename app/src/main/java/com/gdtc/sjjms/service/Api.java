@@ -26,12 +26,15 @@ import retrofit2.http.Query;
 public interface Api {
 
 
-    @POST("client/android/getSowingMap.action")
+    @POST("client/android/getSowingMap.action")//轮播
     Call<Banners> getBannerData();
 
 
-    @POST("client/android/getProduct.action")
+    @POST("client/android/getProduct.action")//分类
     Call<Kind> getFenlei(@Query("parentid") int parentid);
+
+    @POST("client/android/getProduct.action")//全部分类
+    Call<Kind> getAllKind();
 
     @GET("client/android/insertMember.action")//上传个人信息
     Call<UserInfo> uploadInfo(@Query("openId") String openId, @Query("image") String image, @Query("name") String name);
@@ -90,4 +93,7 @@ public interface Api {
 
     @GET("client/android/getRecommendList.action")//美食推荐列表
     Call<HomeTuijian> getHomeTuijianListData(@Query("paging") int paging);
+
+
+
 }
