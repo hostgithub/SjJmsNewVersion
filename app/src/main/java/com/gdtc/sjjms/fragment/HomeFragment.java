@@ -85,6 +85,14 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
     @BindView(R.id.image4)
     ImageView image4;
 
+    @BindView(R.id.kind1)
+    AutoRelativeLayout kind1;
+    @BindView(R.id.kind2)
+    AutoRelativeLayout kind2;
+    @BindView(R.id.kind3)
+    AutoRelativeLayout kind3;
+    @BindView(R.id.kind4)
+    AutoRelativeLayout kind4;
     @BindView(R.id.all_kind)
     AutoRelativeLayout allKind;
 
@@ -255,6 +263,11 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
 
     @Override
     public void onRefresh() {  //没数据模仿
+        initBannerData(); //服务器 链接不上  网页404
+        initKindData();
+
+        list.clear();
+        picAdapter.notifyDataSetChanged();
         initNewsData(1);
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -366,35 +379,35 @@ public class HomeFragment extends BaseFragment implements  RefreshLoadMoreLayout
         });
     }
 
-    @OnClick({ R.id.tv_search,R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.all_kind})
+    @OnClick({ R.id.tv_search,R.id.kind1,R.id.kind2,R.id.kind3,R.id.kind4,R.id.all_kind})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.image1:
+            case R.id.kind1:
 //                Log.e("++++++++++",kindList.get(0).getParentid());
                 Intent intent1=new Intent(new Intent(getActivity(), HomeKindActivity.class));
                 intent1.putExtra(Config.NEWS,kindList.get(0).getProductName());
                 startActivity(intent1);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.image2:
+            case R.id.kind2:
 //                Log.e("++++++++++",kindList.get(1).getParentid());
                 Intent intent2=new Intent(new Intent(getActivity(), HomeKindActivity.class));
                 intent2.putExtra(Config.NEWS,kindList.get(1).getProductName());
                 startActivity(intent2);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.image3:
+            case R.id.kind3:
 //                Log.e("++++++++++",kindList.get(2).getParentid());
                 Intent intent3=new Intent(new Intent(getActivity(), HomeKindActivity.class));
                 intent3.putExtra(Config.NEWS,kindList.get(2).getProductName());
                 startActivity(intent3);
                 getActivity().overridePendingTransition(R.anim.activity_open, 0);
                 break;
-            case R.id.image4:
+            case R.id.kind4:
 //                Log.e("++++++++++",kindList.get(3).getParentid());
                 Intent intent4=new Intent(new Intent(getActivity(), HomeKindActivity.class));
                 intent4.putExtra(Config.NEWS,kindList.get(3).getProductName());

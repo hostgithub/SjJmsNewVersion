@@ -60,7 +60,7 @@ public class HomeKindActivity extends BaseActivity {
         sp = new SharePreferenceTools(MyApplication.getContext());
 
         list=new ArrayList();
-        initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),1);
+        initSimpleKindData(1,getIntent().getStringExtra(Config.NEWS));
         linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         xrecyclerview.setLayoutManager(linearLayoutManager);
@@ -88,21 +88,21 @@ public class HomeKindActivity extends BaseActivity {
                 pages = 1;
                 list.clear();
                 nearbyAdapter.notifyDataSetChanged();
-                initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),1);
+                initSimpleKindData(1,getIntent().getStringExtra(Config.NEWS));
                 xrecyclerview.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
                 pages++;
-                initCollectListData(sp.getString(ConstantValue.WEIXIN_OPENID),pages);
+                initSimpleKindData(pages,getIntent().getStringExtra(Config.NEWS));
                 xrecyclerview.loadMoreComplete();
             }
         });
     }
 
 
-    private void initCollectListData(String id,int pages) {
+    private void initSimpleKindData(int pages,String name) {
         //使用retrofit配置api
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Config.NEARBY_BASE_URL)
@@ -110,7 +110,7 @@ public class HomeKindActivity extends BaseActivity {
                 .client(RetrofitUtils.getInstance().addTimeOut(30).addHttpLog().build())  //构建自己的OkHttpClient
                 .build();
         Api api =retrofit.create(Api.class);
-        Call<NearbySellerBean> call=api.getMineCollectData(id,pages);
+        Call<NearbySellerBean> call=api.getSimpleKind(pages,name);
         call.enqueue(new Callback<NearbySellerBean>() {
             @Override
             public void onResponse(Call<NearbySellerBean> call, Response<NearbySellerBean> response) {

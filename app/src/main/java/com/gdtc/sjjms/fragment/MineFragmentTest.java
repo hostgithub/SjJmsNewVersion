@@ -307,7 +307,12 @@ public class MineFragmentTest extends BaseFragment implements ActionBarClickList
             img_avatar.setImageResource(R.drawable.unlogin);
         }else {
             tv_name.setText(sp.getString(ConstantValue.WEIXIN_NICKNAME));
-            Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Glide.with(getActivity()).load(sp.getString(ConstantValue.WEIXIN_HEADURL)).into(img_avatar);
+                }
+            });
         }
     }
 

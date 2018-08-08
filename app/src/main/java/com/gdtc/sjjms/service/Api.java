@@ -94,6 +94,7 @@ public interface Api {
     @GET("client/android/getRecommendList.action")//美食推荐列表
     Call<HomeTuijian> getHomeTuijianListData(@Query("paging") int paging);
 
-
+    @GET("client/android/getSectionPage.action")//分类列表
+    Call<NearbySellerBean> getSimpleKind(@Query("paging") int paging,@Query("product") String product);
 
 }

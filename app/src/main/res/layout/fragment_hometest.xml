@@ -136,6 +136,7 @@
                     android:paddingTop="5dp">
 
                     <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/kind1"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -153,7 +154,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:layout_marginTop="10px"
+                            android:layout_marginTop="15px"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/app_main_text_color"
                             android:textSize="@dimen/font_size_middle" />
@@ -162,6 +163,7 @@
 
 
                     <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/kind2"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -180,7 +182,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:layout_marginTop="10px"
+                            android:layout_marginTop="15px"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/app_main_text_color"
                             android:textSize="@dimen/font_size_middle" />
@@ -190,6 +192,7 @@
 
 
                     <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/kind3"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -207,7 +210,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:layout_marginTop="10px"
+                            android:layout_marginTop="15px"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/app_main_text_color"
                             android:textSize="@dimen/font_size_middle" />
@@ -215,6 +218,7 @@
                     </com.zhy.autolayout.AutoRelativeLayout>
 
                     <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/kind4"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
@@ -232,7 +236,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:layout_marginTop="10px"
+                            android:layout_marginTop="15px"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/app_main_text_color"
                             android:textSize="@dimen/font_size_middle" />
@@ -258,7 +262,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="全部分类"
-                            android:layout_marginTop="10px"
+                            android:layout_marginTop="15px"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/app_main_text_color"
                             android:textSize="@dimen/font_size_middle" />

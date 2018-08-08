@@ -1,5 +1,6 @@
 package com.gdtc.sjjms.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -82,7 +83,11 @@ public class AllKindActivity extends BaseActivity {
         allKindAdapter.setOnItemClickLitener(new AllKindAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(AllKindActivity.this,""+position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AllKindActivity.this,""+position,Toast.LENGTH_SHORT).show();
+                Intent intent1=new Intent(new Intent(AllKindActivity.this, HomeKindActivity.class));
+                intent1.putExtra(Config.NEWS,list.get(position).getProductName());
+                startActivity(intent1);
+                overridePendingTransition(R.anim.activity_open, 0);
             }
         });
 

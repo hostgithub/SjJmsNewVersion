@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gdtc.sjjms.base.BaseActivity;
+import com.gdtc.sjjms.event.MessageEvent;
 import com.gdtc.sjjms.utils.HttpCallBackListener;
 import com.gdtc.sjjms.utils.HttpUtil;
 import com.gdtc.sjjms.utils.SharePreferenceTools;
@@ -19,6 +20,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.mm.opensdk.utils.Log;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -186,8 +188,7 @@ public class WeiXinActivity extends BaseActivity {
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_HEADURL,headimgurl);
                     sharePreferenceTools.putString(ConstantValue.WEIXIN_NICKNAME,nickName);
 
-//                    Intent intent1 = new Intent(WeiXinActivity.this, HomePageActivity.class);
-//                    startActivity(intent1);
+                    EventBus.getDefault().post(new MessageEvent("login"));
                     finish();
 
                 } catch (JSONException e) {

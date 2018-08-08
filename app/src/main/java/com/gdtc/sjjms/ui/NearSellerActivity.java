@@ -243,6 +243,7 @@ public class NearSellerActivity extends BaseActivity {
                 if(sp.getString(ConstantValue.WEIXIN_OPENID)!=null){
                     showPopupWindow();
                 } else {
+                    showPopupWindow();
                     startActivity(new Intent(NearSellerActivity.this, WeiXinActivity.class));
                 }
 //                showPopupWindow();
